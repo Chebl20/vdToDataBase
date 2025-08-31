@@ -1,0 +1,10 @@
+/downloads
+/logs
+/.vscode
+__pycache__
+/venv
+*.db
+*.xlsx
+*.csv
+/vdToBanco
+/downloaded_files
