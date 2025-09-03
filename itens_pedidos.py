@@ -3,14 +3,12 @@ import pytest
 import time
 import json
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException,NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -36,6 +34,7 @@ import csv
 from pandas.api.types import is_scalar
 import psycopg2.extras
 from seleniumbase import Driver
+from psycopg2.extras import execute_values
 
 # Configuração do sistema de logging
 
@@ -198,7 +197,7 @@ class TratarDados():
 
 class Banco():
     def __init__(self):
-        self.engine = create_engine(os.getenv('dbUrlConnect')) 
+        self.engine = create_engine(os.getenv('DATABASE_URL')) 
         try:
             conn = self.engine.connect()
             result = conn.execute(text("SELECT 1"))
@@ -293,7 +292,7 @@ class Banco():
             cursor = conn.cursor()
             try:
                 # Primeiro, obter todos os códigos de pedido existentes
-                cursor.execute("SELECT DISTINCT 'CodigoPedido' FROM pedidos")
+                cursor.execute("SELECT DISTINCT CodigoPedido FROM pedidos")
                 pedidos_existentes = {row[0] for row in cursor.fetchall()}
                 
                 # Filtrar itens para incluir apenas os de pedidos existentes
@@ -381,7 +380,7 @@ class PegarGoogle():
                 locale_code="pt-BR",
                 guest_mode=True,   
                 disable_gpu=True, # Cria perfil novo, sem conta
-                # headless=True,
+                headless=True,
                 chromium_arg="--no-first-run,"
                     "--no-default-browser-check,"
                     "--disable-infobars,"
@@ -666,11 +665,12 @@ if __name__ == "__main__":
     logger.info("Execução principal finalizada")
     banco = Banco()
     banco.criar_tabela()
+    banco.fechar()
     
     tratar = TratarDados()
     df = tratar.processar_arquivo_itens_pedidos()
-    
     banco.inserirItensPedidos(df)
-    print(banco.consulta())
+
     banco.fechar()
+    rpa.fechar()
     

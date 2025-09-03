@@ -94,7 +94,7 @@ class TratarDados():
             list_of_files = glob.glob(r'C:\Users\Grupo Garbo\Downloads\*.csv')
 
         self.file = max(list_of_files, key=os.path.getctime)
-        
+        self.file = r"C:\Users\Grupo Garbo\Downloads\ConsultaPedidos_497bd1ed-5f79-4fba-af13-c4e70a4ad9c1.csv"
 
     def processar_arquivo_pedidos(self):
 
@@ -218,10 +218,30 @@ class TratarDados():
                 'DataCaptacao', 'DataAprovacao', 'DataMarketing', 'PrevisaoEntrega',
                 'DataEntrega', 'DataAutorizacaoFaturamento', 'DataFaturamento'
             ]
+            def converter_data(valor):
+                if pd.isna(valor) or valor == '':
+                    return None
+                
+                formatos = ['%Y-%m-%d', '%d/%m/%Y', '%d-%m-%Y', '%Y/%m/%d']
+                
+                for formato in formatos:
+                    try:
+                        return pd.to_datetime(valor, format=formato).date()
+                    except:
+                        continue
+                
+                # Se nenhum formato funcionar, tenta conversão automática
+                try:
+                    return pd.to_datetime(valor).date()
+                except:
+                    return None
+
+            # Aplicar a função
             for col in colunas_data:
                 if col in df.columns:
-                    df[col] = pd.to_datetime(df[col], errors='coerce').dt.date
-                     
+                    logger.info(f"Processando coluna {col}")
+                    df[col] = df[col].apply(converter_data)
+
             colunas_time = ['HoraPedido']
             for col in colunas_time:
                 if col in df.columns:
@@ -280,7 +300,7 @@ class TratarDados():
 
 class Banco():
     def __init__(self):
-        self.engine = create_engine(os.getenv('dbUrlConnect')) 
+        self.engine = create_engine(os.getenv('DATABASE_URL')) 
         try:
             conn = self.engine.connect()
             result = conn.execute(text("SELECT 1"))
@@ -477,7 +497,7 @@ class PegarGoogle():
                 locale_code="pt-BR",
                 guest_mode=True,   
                 disable_gpu=True, # Cria perfil novo, sem conta
-                # headless=True,
+                headless=True,
                 chromium_arg="--no-first-run,"
                     "--no-default-browser-check,"
                     "--disable-infobars,"
@@ -751,19 +771,21 @@ class PegarGoogle():
             
 if __name__ == "__main__":
     logger.info("Iniciando execução principal do script Pedidos.py")
-    rpa = PegarGoogle()
-    while rpa.entrar():
-        logger.info("Chamando método pegarPedidos()")
-        if rpa.pegarPedidos():
-            break
+    
+    # rpa = PegarGoogle()
+    # while rpa.entrar():
+    #     logger.info("Chamando método pegarPedidos()")
+    #     if rpa.pegarPedidos():
+    #         break
+    
     logger.info("Execução principal finalizada")
     banco = Banco()
+    banco.criar_tabela()
     tratar = TratarDados()
     df = tratar.processar_arquivo_pedidos()
     banco.inserirPedidos(df)
-    print(banco.consulta())
     banco.fechar()
-    rpa.fechar()
+    # rpa.fechar()
     
 
 # WITH vendas_filtradas AS (

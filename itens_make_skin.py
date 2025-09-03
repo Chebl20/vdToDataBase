@@ -198,7 +198,7 @@ class TratarDados():
 
 class Banco():
     def __init__(self):
-        self.engine = create_engine(os.getenv('dbUrlConnect')) 
+        self.engine = create_engine(os.getenv('DATABASE_URL')) 
         try:
             conn = self.engine.connect()
             result = conn.execute(text("SELECT 1"))
@@ -269,7 +269,7 @@ class Banco():
             values = [tuple(item.get(col, None) for col in colunas) for item in itens_pedidos]
 
             insert_query = f"""
-                INSERT INTO produtos_make_skin ({', '.join(colunas)})
+                INSERT INTO produtos_make_skin({', '.join(colunas)})
                 VALUES ({', '.join(['%s'] * len(colunas))})
                 ON CONFLICT (CodigoProduto)
                 DO UPDATE SET
