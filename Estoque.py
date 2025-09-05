@@ -96,7 +96,8 @@ class TratarDados:
         Args:
             caminho_padrao: Caminho opcional para buscar os arquivos. Se None, usa o padrão.
         """
-        caminho = caminho_padrao or r'C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\downloads\BuscarPedidosItensAnalitico_*.xls'
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        caminho = caminho_padrao or os.path.join(base_dir, 'downloads', 'BuscarPedidosItensAnalitico_*.xls')
         self._encontrar_arquivo_mais_recente(caminho)
     
     def _encontrar_arquivo_mais_recente(self, caminho: str):

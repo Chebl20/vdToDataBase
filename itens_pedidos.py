@@ -87,10 +87,24 @@ ciclos_2024 = [
 
 class TratarDados():
     def __init__(self):
-        list_of_files = glob.glob(r'C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\downloads\*.xlsx')
+        # Caminhos portáveis: primeiro busca na pasta 'downloads' do projeto, depois em 'Downloads' do usuário
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        projeto_downloads = os.path.join(base_dir, 'downloads')
+        usuario_downloads = os.path.join(os.path.expanduser('~'), 'Downloads')
+
+        padroes = [
+            os.path.join(projeto_downloads, '*.xlsx'),
+            os.path.join(usuario_downloads, '*.xlsx'),
+        ]
+
+        list_of_files = []
+        for padrao in padroes:
+            arquivos = glob.glob(padrao)
+            if arquivos:
+                list_of_files.extend(arquivos)
 
         if not list_of_files:
-            list_of_files = glob.glob(r'C:\Users\Grupo Garbo\Downloads\*.xlsx')
+            raise FileNotFoundError("Nenhum arquivo XLSX encontrado nas pastas padrão ('downloads' do projeto ou 'Downloads' do usuário).")
 
         self.file = max(list_of_files, key=os.path.getctime)
         
@@ -362,7 +376,8 @@ class PegarGoogle():
         self.ciclo_2 = None
         
         # Diretório de download personalizado
-        download_dir = r"C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\downloads"
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        download_dir = os.path.join(base_dir, 'downloads')
         self.download_dir = download_dir
         
         # Garantir que o diretório de download existe
@@ -526,7 +541,7 @@ class PegarGoogle():
             
             # Configurando período de busca
             hoje = datetime.today()
-            inicio = hoje - timedelta(days=5)
+            inicio = hoje - timedelta(days=1)
             fim = hoje 
             inicio_formatado = inicio.strftime('%d%m%Y')
             fim_formatado = fim.strftime('%d%m%Y')

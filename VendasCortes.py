@@ -93,12 +93,13 @@ class TratarDados:
     
     def __init__(self, caminho_padrao: Optional[str] = None):
         """
-        Inicializa a classe com o caminho padrão ou usa o caminho padrão do sistema.
+        Inicializa a classe com o caminho padrão ou usa um caminho portátil baseado no projeto.
         
         Args:
-            caminho_padrao: Caminho opcional para buscar os arquivos. Se None, usa o padrão.
+            caminho_padrao: Caminho opcional para buscar os arquivos. Se None, usa o padrão na pasta 'downloads' do projeto.
         """
-        caminho = caminho_padrao or r'C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\downloads\BuscarPedidosItensAnalitico_*.xls'
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        caminho = caminho_padrao or os.path.join(base_dir, 'downloads', 'BuscarPedidosItensAnalitico_*.xls')
         self._encontrar_arquivo_mais_recente(caminho)
     
     def _encontrar_arquivo_mais_recente(self, caminho: str):
@@ -108,7 +109,6 @@ class TratarDados:
             raise FileNotFoundError(f"Nenhum arquivo 'BuscarPedidosItensAnalitico_*.xls' encontrado em {caminho}.")
         self.file = max(list_of_files, key=os.path.getctime)
         logger.info(f"Arquivo selecionado para processamento: {self.file}")
-        self.file = r"C:\Users\Grupo Garbo\Downloads\Base_11.xlsx"
     
     @log_execution_time
     def processar_arquivo_vendas(self) -> pd.DataFrame:

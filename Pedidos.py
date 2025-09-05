@@ -88,13 +88,26 @@ ciclos_2024 = [
 
 class TratarDados():
     def __init__(self):
-        list_of_files = glob.glob(r'C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\downloads\*.csv')
+        # Caminhos portáveis: primeiro busca na pasta 'downloads' do projeto, depois em 'Downloads' do usuário
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        projeto_downloads = os.path.join(base_dir, 'downloads')
+        usuario_downloads = os.path.join(os.path.expanduser('~'), 'Downloads')
+
+        padroes = [
+            os.path.join(projeto_downloads, '*.csv'),
+            os.path.join(usuario_downloads, '*.csv'),
+        ]
+
+        list_of_files = []
+        for padrao in padroes:
+            arquivos = glob.glob(padrao)
+            if arquivos:
+                list_of_files.extend(arquivos)
 
         if not list_of_files:
-            list_of_files = glob.glob(r'C:\Users\Grupo Garbo\Downloads\*.csv')
+            raise FileNotFoundError("Nenhum arquivo CSV encontrado nas pastas padrão ('downloads' do projeto ou 'Downloads' do usuário).")
 
         self.file = max(list_of_files, key=os.path.getctime)
-        self.file = r"C:\Users\Grupo Garbo\Downloads\ConsultaPedidos_497bd1ed-5f79-4fba-af13-c4e70a4ad9c1.csv"
 
     def processar_arquivo_pedidos(self):
 
@@ -478,8 +491,9 @@ class PegarGoogle():
         self.ciclo_1 = None
         self.ciclo_2 = None
         
-        # Diretório de download personalizado
-        download_dir = r"C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\downloads"
+        # Diretório de download personalizado (portátil)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        download_dir = os.path.join(base_dir, 'downloads')
         self.download_dir = download_dir
         
         # Garantir que o diretório de download existe
@@ -512,7 +526,7 @@ class PegarGoogle():
     
             driver.execute_cdp_cmd('Page.setDownloadBehavior', {
                 'behavior': 'allow',
-                'downloadPath': download_dir
+                'downloadPath': self.download_dir
             })
 
             self.driver = driver
@@ -644,7 +658,7 @@ class PegarGoogle():
             
             # Configurando período de busca
             hoje = datetime.today()
-            inicio = hoje - timedelta(days=30)
+            inicio = hoje - timedelta(days=1)
             inicio_formatado = inicio.strftime('%d%m%Y')
             fim_formatado = hoje.strftime('%d%m%Y')
             
@@ -772,11 +786,11 @@ class PegarGoogle():
 if __name__ == "__main__":
     logger.info("Iniciando execução principal do script Pedidos.py")
     
-    # rpa = PegarGoogle()
-    # while rpa.entrar():
-    #     logger.info("Chamando método pegarPedidos()")
-    #     if rpa.pegarPedidos():
-    #         break
+    rpa = PegarGoogle()
+    while rpa.entrar():
+        logger.info("Chamando método pegarPedidos()")
+        if rpa.pegarPedidos():
+            break
     
     logger.info("Execução principal finalizada")
     banco = Banco()
@@ -785,7 +799,7 @@ if __name__ == "__main__":
     df = tratar.processar_arquivo_pedidos()
     banco.inserirPedidos(df)
     banco.fechar()
-    # rpa.fechar()
+    rpa.fechar()
     
 
 # WITH vendas_filtradas AS (
