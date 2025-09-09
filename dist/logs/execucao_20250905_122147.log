@@ -1,0 +1,68 @@
+2025-09-05 12:21:47,379 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-05 12:21:47,379 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-05 12:21:47,379 - INFO - Configurando opções do Chrome
+2025-09-05 12:21:47,379 - INFO - Iniciando Chrome
+2025-09-05 12:22:00,942 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-05 12:22:00,975 - INFO - Setup do Selenium concluído
+2025-09-05 12:22:24,426 - INFO - Chamando método pegarItensVendas()
+2025-09-05 12:22:24,426 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-05 12:22:24,426 - INFO - Navegando para o menu de pedidos
+2025-09-05 12:22:24,426 - INFO - Tentando clicar no elemento: //*[@id="menu-cod-1"]/a
+2025-09-05 12:22:24,536 - INFO - Clique bem-sucedido no elemento: //*[@id="menu-cod-1"]/a
+2025-09-05 12:22:24,536 - INFO - Expandindo submenu
+2025-09-05 12:22:24,539 - INFO - Tentando clicar no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[5]/a
+2025-09-05 12:22:24,624 - INFO - Clique bem-sucedido no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[5]/a
+2025-09-05 12:22:24,626 - INFO - Acessando consulta de pedidos
+2025-09-05 12:22:24,627 - INFO - Tentando clicar no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[5]/ul/li[2]/a
+2025-09-05 12:22:25,217 - INFO - Clique bem-sucedido no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[5]/ul/li[2]/a
+2025-09-05 12:22:25,217 - INFO - Abrindo seletor de situações comerciais
+2025-09-05 12:22:25,219 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_Tb1"]
+2025-09-05 12:22:27,137 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_Tb1"]
+2025-09-05 12:22:27,137 - INFO - Marcando todas as situações comerciais
+2025-09-05 12:22:27,139 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[1]/a/label
+2025-09-05 12:22:27,385 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[1]/a/label
+2025-09-05 12:22:27,385 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[4]/a/label
+2025-09-05 12:22:27,649 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[4]/a/label
+2025-09-05 12:22:27,654 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[6]/a/label
+2025-09-05 12:22:27,884 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[6]/a/label
+2025-09-05 12:22:27,884 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[7]/a/label
+2025-09-05 12:22:28,047 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[7]/a/label
+2025-09-05 12:22:28,047 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[8]/a/label
+2025-09-05 12:22:28,290 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_D0"]/div/ul/li[8]/a/label
+2025-09-05 12:22:28,290 - INFO - Limpando campo de data inicial
+2025-09-05 12:22:28,292 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataInicialCaptacao_Tb1"]
+2025-09-05 12:22:28,372 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataInicialCaptacao_Tb1"]
+2025-09-05 12:22:28,617 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataFinalCaptacao_Tb1"]
+2025-09-05 12:22:28,685 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataFinalCaptacao_Tb1"]
+2025-09-05 12:22:28,893 - INFO - Configurando período de busca: 04/09/2025 a 05/09/2025
+2025-09-05 12:22:28,893 - INFO - Preenchendo data inicial
+2025-09-05 12:22:28,895 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataInicialCaptacao_Tb1"]
+2025-09-05 12:22:28,915 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataInicialCaptacao_Tb1"]
+2025-09-05 12:22:29,049 - INFO - Preenchendo data final
+2025-09-05 12:22:29,050 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataFinalCaptacao_Tb1"]
+2025-09-05 12:22:29,072 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_txtDataFinalCaptacao_Tb1"]
+2025-09-05 12:22:29,195 - INFO - Aguardando 3 segundos para garantir que os filtros foram aplicados
+2025-09-05 12:22:32,197 - INFO - Iniciando busca de pedidos
+2025-09-05 12:22:32,197 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_btnBuscar_B1"]
+2025-09-05 12:22:32,316 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_btnBuscar_B1"]
+2025-09-05 12:22:32,316 - INFO - Clicando no botão de exportar
+2025-09-05 12:22:32,319 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_btnExportar_B1"]
+2025-09-05 12:23:17,206 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_btnExportar_B1"]
+2025-09-05 12:23:17,206 - INFO - Selecionando opção de exportação
+2025-09-05 12:23:17,206 - INFO - Tentando clicar no elemento: //*[@id="tab-01"]/div[3]/div/div[2]/div/div[1]/span/label
+2025-09-05 12:23:18,633 - INFO - Clique bem-sucedido no elemento: //*[@id="tab-01"]/div[3]/div/div[2]/div/div[1]/span/label
+2025-09-05 12:23:18,633 - INFO - Iniciando processo de download
+2025-09-05 12:26:01,370 - INFO - Fechando janelas secundárias
+2025-09-05 12:26:01,370 - INFO - Tentando fechar janela secundária
+2025-09-05 12:26:01,388 - INFO - Detectadas 2 janelas. Alternando para a janela secundária
+2025-09-05 12:26:01,394 - INFO - Fechando janela secundária
+2025-09-05 12:26:01,423 - INFO - Voltando para a janela principal
+2025-09-05 12:26:01,434 - INFO - Janela secundária fechada com sucesso
+2025-09-05 12:26:01,434 - INFO - Processo de busca e exportação de pedidos concluído com sucesso
+2025-09-05 12:26:01,434 - INFO - Execução principal finalizada
+2025-09-05 12:26:01,584 - INFO - Iniciando processamento do arquivo: C:\Users\Administrator\Desktop\download_path_databse\RelatorioItensPorVendedor_531593f3-5d15-4fc1-a685-fe0cc16f9e0b.xlsx
+2025-09-05 12:26:05,422 - INFO - Arquivo lido com sucesso. Total de linhas: 7111
+2025-09-05 12:26:05,422 - INFO - Colunas renomeadas: ['CodigoPedido', 'CodigoProduto', 'Produto', 'DataCaptacao', 'CicloCaptacao', 'DataFaturamento', 'CicloFaturamento', 'Pessoa', 'NomePessoa', 'Papel', 'SituacaoFiscal', 'NotaFiscal', 'MeioCaptacao', 'CodPlanoPagamento', 'PlanoPagamento', 'TipoEntrega', 'CodUsuarioCriacao', 'UsuarioCriacao', 'CodUsuarioFinalizacao', 'UsuarioFinalizacao', 'CodCD', 'CanalDistribuicao', 'QtdeItens', 'ValorTabela', 'ValorPraticado', 'ValorLiquido']
+2025-09-05 12:26:05,688 - INFO - Processamento concluído com sucesso
+2025-09-05 12:26:05,986 - WARNING - 104 itens ignorados pois seus pedidos não foram encontrados na tabela 'pedidos'
+2025-09-05 12:26:07,856 - INFO - Inserção/atualização de 7007 itens de pedidos concluída com sucesso

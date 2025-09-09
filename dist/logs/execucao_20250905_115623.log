@@ -1,0 +1,70 @@
+2025-09-05 11:56:23,534 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-05 11:56:23,534 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-05 11:56:23,540 - INFO - Configurando opções do Chrome
+2025-09-05 11:56:23,540 - INFO - Iniciando Chrome
+2025-09-05 11:56:38,710 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-05 11:56:38,741 - INFO - Setup do Selenium concluído
+2025-09-05 11:57:02,755 - INFO - Chamando método pegarPedidos()
+2025-09-05 11:57:02,755 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-05 11:57:02,758 - INFO - Navegando para o menu de pedidos
+2025-09-05 11:57:02,758 - INFO - Tentando clicar no elemento: //*[@id="menu-cod-1"]/a
+2025-09-05 11:57:02,865 - INFO - Clique bem-sucedido no elemento: //*[@id="menu-cod-1"]/a
+2025-09-05 11:57:02,865 - INFO - Expandindo submenu
+2025-09-05 11:57:02,865 - INFO - Tentando clicar no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[1]/a
+2025-09-05 11:57:02,962 - INFO - Clique bem-sucedido no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[1]/a
+2025-09-05 11:57:02,963 - INFO - Acessando consulta de pedidos
+2025-09-05 11:57:02,965 - INFO - Tentando clicar no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[1]/ul/li[2]/a
+2025-09-05 11:57:03,598 - INFO - Clique bem-sucedido no elemento: //*[@id="submenu-cod-1"]/div/div[1]/ul/li[1]/ul/li[2]/a
+2025-09-05 11:57:03,598 - INFO - Configurando filtros de busca
+2025-09-05 11:57:03,599 - INFO - Focando no campo de código externo
+2025-09-05 11:57:03,601 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtCodigoExternoPedido_Tb1"]
+2025-09-05 11:57:06,800 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtCodigoExternoPedido_Tb1"]
+2025-09-05 11:57:06,800 - INFO - Limpando campo de data inicial
+2025-09-05 11:57:06,800 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtDataInicio_Tb1"]
+2025-09-05 11:57:06,944 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtDataInicio_Tb1"]
+2025-09-05 11:57:07,486 - INFO - Abrindo seletor de situações comerciais
+2025-09-05 11:57:07,486 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_Tb1"]
+2025-09-05 11:57:08,095 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_Tb1"]
+2025-09-05 11:57:08,096 - INFO - Marcando todas as situações comerciais
+2025-09-05 11:57:08,098 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[1]/a/label
+2025-09-05 11:57:08,340 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[1]/a/label
+2025-09-05 11:57:08,341 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[2]/a/label
+2025-09-05 11:57:08,658 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[2]/a/label
+2025-09-05 11:57:08,658 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[3]/a/label
+2025-09-05 11:57:09,046 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[3]/a/label
+2025-09-05 11:57:09,047 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[4]/a/label
+2025-09-05 11:57:09,472 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[4]/a/label
+2025-09-05 11:57:09,472 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[5]/a/label
+2025-09-05 11:57:09,609 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[5]/a/label
+2025-09-05 11:57:09,609 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[6]/a/label
+2025-09-05 11:57:09,686 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[6]/a/label
+2025-09-05 11:57:09,688 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[7]/a/label
+2025-09-05 11:57:09,856 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[7]/a/label
+2025-09-05 11:57:09,856 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[8]/a/label
+2025-09-05 11:57:09,956 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_cmsSituacaoComercial_D0"]/div/ul/li[8]/a/label
+2025-09-05 11:57:09,956 - INFO - Configurando período de busca: 04/09/2025 a 05/09/2025
+2025-09-05 11:57:09,956 - INFO - Preenchendo data inicial
+2025-09-05 11:57:09,956 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtDataInicio_Tb1"]
+2025-09-05 11:57:09,985 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtDataInicio_Tb1"]
+2025-09-05 11:57:10,126 - INFO - Preenchendo data final
+2025-09-05 11:57:10,126 - INFO - Aguardando presença do elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtDataFim_Tb1"]
+2025-09-05 11:57:10,156 - INFO - Elemento localizado com sucesso: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_txtDataFim_Tb1"]
+2025-09-05 11:57:10,284 - INFO - Aguardando 3 segundos para garantir que os filtros foram aplicados
+2025-09-05 11:57:13,286 - INFO - Iniciando busca de pedidos
+2025-09-05 11:57:13,286 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_btnBuscar_B1"]
+2025-09-05 11:57:13,395 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_btnBuscar_B1"]
+2025-09-05 11:57:13,395 - INFO - Clicando no botão de exportar
+2025-09-05 11:57:13,396 - INFO - Tentando clicar no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_btnExportar_B1"]
+2025-09-05 11:57:19,537 - INFO - Clique bem-sucedido no elemento: //*[@id="ContentPlaceHolder1_ControleBuscaPedido_btnExportar_B1"]
+2025-09-05 11:57:19,537 - INFO - Selecionando opção de exportação
+2025-09-05 11:57:19,543 - INFO - Tentando clicar no elemento: //*[@id="tab-01"]/div[3]/div/div[3]/div/div[1]/span/label
+2025-09-05 11:57:21,186 - INFO - Clique bem-sucedido no elemento: //*[@id="tab-01"]/div[3]/div/div[3]/div/div[1]/span/label
+2025-09-05 11:57:21,187 - INFO - Iniciando processo de download
+2025-09-05 12:00:05,975 - INFO - Fechando janelas secundárias
+2025-09-05 12:00:05,975 - INFO - Tentando fechar janela secundária
+2025-09-05 12:00:06,003 - INFO - Detectadas 2 janelas. Alternando para a janela secundária
+2025-09-05 12:00:06,011 - INFO - Fechando janela secundária
+2025-09-05 12:00:06,084 - INFO - Voltando para a janela principal
+2025-09-05 12:00:06,090 - INFO - Janela secundária fechada com sucesso
+2025-09-05 12:00:06,091 - INFO - Processo de busca e exportação de pedidos concluído com sucesso
+2025-09-05 12:00:06,091 - INFO - Execução principal finalizada

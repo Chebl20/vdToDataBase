@@ -89,9 +89,9 @@ ciclos_2024 = [
 class TratarDados():
     def __init__(self):
         # Caminhos portáveis: primeiro busca na pasta 'downloads' do projeto, depois em 'Downloads' do usuário
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        projeto_downloads = os.path.join(base_dir, 'downloads')
-        usuario_downloads = os.path.join(os.path.expanduser('~'), 'Downloads')
+        base_dir = r"C:\Users\Administrator\Desktop"
+        projeto_downloads = os.path.join(base_dir, 'download_path_databse')
+        usuario_downloads = os.path.join(os.path.expanduser('~'), 'download_path_databse')
 
         padroes = [
             os.path.join(projeto_downloads, '*.csv'),
@@ -492,8 +492,8 @@ class PegarGoogle():
         self.ciclo_2 = None
         
         # Diretório de download personalizado (portátil)
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        download_dir = os.path.join(base_dir, 'downloads')
+        base_dir = r"C:\Users\Administrator\Desktop"
+        download_dir = os.path.join(base_dir, r'download_path_databse')
         self.download_dir = download_dir
         
         # Garantir que o diretório de download existe
@@ -799,7 +799,7 @@ if __name__ == "__main__":
     df = tratar.processar_arquivo_pedidos()
     banco.inserirPedidos(df)
     banco.fechar()
-    rpa.fechar()
+    # rpa.fechar()
     
 
 # WITH vendas_filtradas AS (
