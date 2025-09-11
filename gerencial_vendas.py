@@ -347,11 +347,126 @@ class TratarDados:
         if df is None or df.empty:
             print("⚠️  DataFrame vazio ou None, nada a limpar")
             return df
+            
+        # Debug: Mostra todas as colunas disponíveis
+        print("\nColunas disponíveis no DataFrame:")
+        print(df.columns.tolist())
+            
+        # Debug: Mostra os valores originais das colunas antes da conversão
+        colunas_debug = ['GMV-Qtd de boletos', 'GMV-Itens por boleto']
+        for col in colunas_debug:
+            if col in df.columns:
+                print(f"\nValores originais da coluna {col}:")
+                print(df[col].head())
         
         # Exemplo de limpeza: remover colunas desnecessárias, tratar NaNs, etc.
         df = df.dropna(how='all')  # Remove linhas completamente vazias
         df = df.dropna(axis=1, how='all')  # Remove colunas completamente vazias
         
+        # Tratamento da coluna 'Listar Por Consultor'
+        if 'Listar Por Consultor' in df.columns:
+            # Divide a coluna em ID e Nome do consultor
+            
+            df[['id_consultor', 'nome_consultor']] = df['Listar Por Consultor'].str.split(' - ', n=1, expand=True)
+            
+            # Converte ID para inteiro e trata possíveis erros
+            df['id_consultor'] = pd.to_numeric(df['id_consultor'], errors='coerce').fillna(0).astype(int)
+            
+            # Remove a coluna original após o split
+            df = df.drop('Listar Por Consultor', axis=1)
+            
+            print("✅ Coluna 'Listar Por Consultor' processada com sucesso")
+        
+        
+        mapeamento_colunas = {
+                    'GMV-GMV': 'gmv',
+                    'Quebrar Por Data': 'data',
+                    'GMV-Boleto médio': 'boleto_medio',
+                    'GMV-Qtd de boletos': 'qtd_boletos',
+                    'GMV-Itens por boleto': 'itens_boleto',
+                    'Valores de vendas-Receita líquida': 'receita_liquida',
+                    'Valores de vendas-Receita líquida (-) trocas': 'receita_liquida_trocas',
+                    'Valores de vendas-B1': 'vendas_b1',
+                    'Fidelidade-Qtd de boletos': 'fidelidade_qtd_boletos',
+                    'Fidelidade-Penetração Boletos': 'fidelidade_penetracao_boletos',  # Corrigido maiúscula em "Boletos"
+                    'Descontos-Total de descontos': 'total_descontos',
+                    'Trocas-Trocas': 'trocas',
+                    'Trocas-Qtd de trocas': 'qtd_trocas',
+                    'Cartão presente-Recarga': 'presente_recarga',
+                    'Quantitativo-B1': 'qtd_b1',
+                }
+        
+        colunas_existentes = {k: v for k, v in mapeamento_colunas.items() if k in df.columns}
+        df = df.rename(columns=colunas_existentes)
+        
+        # Tratamento de colunas de data
+        colunas_data = ['data']
+        for col in colunas_data:
+            if col in df.columns:
+                df[col] = pd.to_datetime(df[col], format='%d/%m/%Y', errors='coerce')
+                print(f"✅ Coluna de data '{col}' convertida com sucesso")
+
+        # Tratamento de colunas numéricas/monetárias
+        colunas_monetarias = [
+            'gmv', 'boleto_medio', 'receita_liquida', 
+            'receita_liquida_trocas', 'vendas_b1', 
+            'total_descontos', 'trocas', 'presente_recarga'
+        ]
+        
+        # Trata valores monetários (converte string para float)
+        for col in colunas_monetarias:
+            if col in df.columns:
+                # Remove possíveis símbolos monetários e pontos de milhar, substitui vírgula por ponto
+                df[col] = df[col].astype(str).str.replace('R$', '', regex=False)
+                df[col] = df[col].str.replace('.', '', regex=False)
+                df[col] = df[col].str.replace(',', '.', regex=False)
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+                print(f"✅ Coluna monetária '{col}' convertida com sucesso")
+
+        # Tratamento de colunas numéricas inteiras
+        colunas_inteiras = [
+            'qtd_boletos', 'itens_boleto', 'fidelidade_qtd_boletos',
+            'qtd_trocas', 'qtd_b1'
+        ]
+        
+        # Converte para números inteiros
+        for col in colunas_inteiras:
+            if col in df.columns:
+                # Primeiro limpa a coluna de possível formatação
+                df[col] = df[col].astype(str).str.replace('.', '', regex=False)  # Remove pontos de milhar
+                df[col] = df[col].str.replace(',', '.', regex=False)  # Troca vírgula por ponto
+                
+                # Converte para float primeiro para não perder decimais
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+                
+                # Agora converte para inteiro, arredondando para cima
+                df[col] = df[col].fillna(0).round().astype(int)
+                
+                print(f"✅ Coluna inteira '{col}' convertida com sucesso")
+                # Imprime alguns valores para verificação
+                print(f"Amostra de valores da coluna {col}:")
+                print(df[col].head())
+
+        # Tratamento de porcentagens
+        colunas_porcentagem = ['fidelidade_penetracao_boletos']
+        for col in colunas_porcentagem:
+            if col in df.columns:
+                # Debug: mostra valores originais
+                print(f"\nValores originais da coluna {col} antes da conversão:")
+                print(df[col].head())
+                
+                # Tratamento mais robusto para porcentagens
+                df[col] = df[col].astype(str)
+                df[col] = df[col].str.replace('%', '', regex=False)  # Remove %
+                df[col] = df[col].str.replace('.', '', regex=False)  # Remove pontos de milhar
+                df[col] = df[col].str.replace(',', '.', regex=False)  # Converte vírgula para ponto
+                
+                # Converte para número e divide por 100
+                df[col] = pd.to_numeric(df[col], errors='coerce') / 100
+                
+                print(f"\nValores convertidos da coluna {col}:")
+                print(df[col].head())
+                print(f"✅ Coluna de porcentagem '{col}' convertida com sucesso")
         
         print("✅ Limpeza de dados concluída")
         return df
@@ -367,6 +482,8 @@ class BoticarioReportConfig:
     def get_default_config(cls) -> List[Dict[str, str]]:
         """Retorna configuração padrão de relatórios"""
         return cls.REPORT_TYPES
+    
+     
 
 
 def main():
