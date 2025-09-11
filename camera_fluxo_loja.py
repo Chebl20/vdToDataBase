@@ -430,7 +430,7 @@ class PegarGoogle():
                 locale_code="pt-BR",
                 guest_mode=True,   
                 disable_gpu=True, # Cria perfil novo, sem conta
-                headless=True,
+                # headless=True,
                 chromium_arg="--no-first-run,"
                     "--no-default-browser-check,"
                     "--disable-infobars,"
@@ -514,25 +514,19 @@ class PegarGoogle():
                 
     def entrar(self):
         try:
-            self.driver.get("https://sgi.e-boticario.com.br/Paginas/Acesso/Entrar.aspx?ReturnUrl=%2f")
+            url = r"https://mfweb.maisfluxo.com.br/MaisFluxoServidorWEB/login"
+            self.driver.get(url)
                 
-            usuario = 'chebljose@gmail.com'
-            senha = 'Oliveira26@2004'
-            self.driver.click(r'#btnLoginExterno')
-            print("entrou no site")
+            usuario = 'FLAVIO.DIMITRI'
+            senha = '1131'
             
-            time.sleep(3)
-            self.driver.click(r'#GoogleExchange')
-            print("entrou no google")
+            self._esperar_elemento(By.XPATH, r'//*[@id="loginForm:username"]').send_keys(usuario)
+            self._esperar_elemento(By.XPATH, r'//*[@id="loginForm:password"]').send_keys(senha)
             
-            self.driver.type("#identifierId", usuario)
-            self.driver.click("#identifierNext > div > button")
-            print("Passando o usuario")
-
-            self.driver.type("#password > div.aCsJod.oJeWuf > div > div.Xb9hP > input", senha)
-            self.driver.click("#passwordNext > div > button")
-            print("Passando a senha")
-            time.sleep(10)
+            self._esperar_e_clicar(By.XPATH, r'/html/body/form/div/div[5]/button')
+            
+            
+            time.sleep(5)
             return True
             
         except ValueError as e:
@@ -543,22 +537,31 @@ class PegarGoogle():
             logger.error(f"Erro ao fazer login: {str(e)}", exc_info=True)
             return False
             
-    def pegarItensVendas(self):
+    def pegarRelatorio(self):
         try:
             logger.info("Iniciando processo de busca e exportação de pedidos")
             ciclo = 1
             
             # Navegação inicial
             logger.info("Navegando para o menu de pedidos")
-            self._esperar_e_clicar(By.XPATH, r'//*[@id="menu-cod-1"]/a')
+            self._esperar_e_clicar(By.XPATH, r'//*[@id="form:dataTable_data"]/tr[1]/td/a')
             logger.info("Expandindo submenu")
-            self._esperar_e_clicar(By.XPATH, r'//*[@id="submenu-cod-1"]/div/div[1]/ul/li[5]/a')
-            logger.info("Acessando consulta de pedidos")
-            self._esperar_e_clicar(By.XPATH, r'//*[@id="submenu-cod-1"]/div/div[1]/ul/li[5]/ul/li[2]/a')
             
+            
+            iframe = self.wait.until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="form:tabView:j_idt149"]/table/tbody/tr/td/iframe'))
+        )
+            self.driver.switch_to.frame(iframe)
+            
+            self._esperar_e_clicar(By.XPATH, r'//*[@id="exibirQuantidade"]/label')
+            
+           
             # Configurar filtros
             logger.info("Abrindo seletor de situações comerciais")
-            self._esperar_e_clicar(By.XPATH, r'//*[@id="ContentPlaceHolder1_ctlRelatorioItensPorVendedor_ddlSituacaoComercial_Tb1"]')
+            self._esperar_e_clicar(By.XPATH, r'//*[@id="render_dataDe"]')
+            self._esperar_e_clicar(By.XPATH, r'//*[@id="ui-datepicker-div"]/table/tbody/tr[2]/td[4]/a')
+            
+            
             
             # Marcar opções de tipos de produto
             logger.info("Marcando todas as situações comerciais")
@@ -709,18 +712,18 @@ if __name__ == "__main__":
     rpa = PegarGoogle()
     while rpa.entrar():
         logger.info("Chamando método pegarItensVendas()")
-        if rpa.pegarItensVendas():
+        if rpa.pegarRelatorio():
             break
     
-    logger.info("Execução principal finalizada")
-    banco = Banco()
-    banco.criar_tabela()
-    banco.fechar()
+    # logger.info("Execução principal finalizada")
+    # banco = Banco()
+    # banco.criar_tabela()
+    # banco.fechar()
     
-    tratar = TratarDados()
-    df = tratar.processar_arquivo_itens_pedidos()
-    banco.inserirItensPedidos(df)
+    # tratar = TratarDados()
+    # df = tratar.processar_arquivo_itens_pedidos()
+    # banco.inserirItensPedidos(df)
 
-    banco.fechar()
-    rpa.fechar()
+    # banco.fechar()
+    # rpa.fechar()
     

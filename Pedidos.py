@@ -658,7 +658,7 @@ class PegarGoogle():
             
             # Configurando período de busca
             hoje = datetime.today()
-            inicio = hoje - timedelta(days=30)
+            inicio = hoje - timedelta(days=1)
             inicio_formatado = inicio.strftime('%d%m%Y')
             fim_formatado = hoje.strftime('%d%m%Y')
             
