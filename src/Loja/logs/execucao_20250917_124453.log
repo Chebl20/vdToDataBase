@@ -1,0 +1,96 @@
+2025-09-17 12:44:53,515 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 12:44:53,515 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 12:44:53,515 - INFO - Configurando opções do Chrome
+2025-09-17 12:44:53,515 - INFO - Iniciando Chrome
+2025-09-17 12:45:00,069 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 12:45:00,793 - INFO - Setup do Selenium concluído
+2025-09-17 12:45:12,055 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 12:45:12,099 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 12:45:14,232 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 12:45:14,488 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 12:45:17,227 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 12:45:17,304 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 12:45:27,308 - INFO - Chamando método pegarItensVendas()
+2025-09-17 12:45:27,308 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 12:45:27,308 - INFO - Navegando para o menu de pedidos
+2025-09-17 12:45:27,309 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 12:45:27,353 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 12:45:27,353 - INFO - Expandindo submenu
+2025-09-17 12:45:27,353 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 12:45:27,905 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 12:45:27,905 - INFO - Acessando consulta de pedidos
+2025-09-17 12:45:27,905 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 12:45:28,483 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 12:45:31,484 - INFO - Voltando para o conteúdo principal
+2025-09-17 12:45:36,605 - INFO - Encontrados 3 iframes
+2025-09-17 12:45:36,607 - INFO - Tentando iframe 0
+2025-09-17 12:45:36,669 - INFO - Elemento encontrado no iframe 0
+2025-09-17 12:45:36,669 - INFO - Aguardando elemento estar disponível para clique
+2025-09-17 12:45:36,669 - INFO - Tentando clicar no elemento: //*[@id="select2-quebra-container"]
+2025-09-17 12:45:36,705 - INFO - Clique bem-sucedido no elemento: //*[@id="select2-quebra-container"]
+2025-09-17 12:45:36,705 - INFO - Aguardando presença do elemento: //*[@id="select2-quebra-container"]
+2025-09-17 12:45:36,714 - INFO - Elemento localizado com sucesso: //*[@id="select2-quebra-container"]
+2025-09-17 12:45:36,749 - ERROR - Erro ao pegar pedidos: Message: element not interactable
+  (Session info: chrome=140.0.7339.128)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205c8fc]
+	(No symbol) [0x0x7ff6d20ad9d3]
+	(No symbol) [0x0x7ff6d20ab7f0]
+	(No symbol) [0x0x7ff6d20dcada]
+	(No symbol) [0x0x7ff6d20a6bc6]
+	(No symbol) [0x0x7ff6d20dccf0]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\Loja\abc_vendas.py", line 632, in pegarABCVendas
+    quebra1.send_keys("Data").send_keys(Keys.ENTER)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 231, in send_keys
+    self._execute(
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 395, in _execute
+    return self._parent.execute(command, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: element not interactable
+  (Session info: chrome=140.0.7339.128)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205c8fc]
+	(No symbol) [0x0x7ff6d20ad9d3]
+	(No symbol) [0x0x7ff6d20ab7f0]
+	(No symbol) [0x0x7ff6d20dcada]
+	(No symbol) [0x0x7ff6d20a6bc6]
+	(No symbol) [0x0x7ff6d20dccf0]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+

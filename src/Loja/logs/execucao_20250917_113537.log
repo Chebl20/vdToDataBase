@@ -1,0 +1,41 @@
+2025-09-17 11:35:37,087 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 11:35:37,087 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 11:35:37,087 - INFO - Configurando opções do Chrome
+2025-09-17 11:35:37,088 - INFO - Iniciando Chrome
+2025-09-17 11:35:41,149 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 11:35:41,231 - INFO - Setup do Selenium concluído
+2025-09-17 11:35:42,722 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 11:35:49,085 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 11:35:51,213 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 11:35:51,336 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 11:35:53,538 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:35:54,298 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:36:04,306 - INFO - Chamando método pegarItensVendas()
+2025-09-17 11:36:04,306 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 11:36:04,307 - INFO - Navegando para o menu de pedidos
+2025-09-17 11:36:04,307 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:36:04,351 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:36:04,353 - INFO - Expandindo submenu
+2025-09-17 11:36:04,354 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:36:04,909 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:36:04,909 - INFO - Acessando consulta de pedidos
+2025-09-17 11:36:04,909 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:36:05,491 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:36:08,492 - INFO - Voltando para o conteúdo principal
+2025-09-17 11:36:13,590 - INFO - Encontrados 2 iframes
+2025-09-17 11:36:13,590 - INFO - Tentando iframe 0
+2025-09-17 11:36:13,635 - INFO - Elemento encontrado no iframe 0
+2025-09-17 11:36:13,636 - INFO - Aguardando elemento estar disponível para clique
+2025-09-17 11:36:13,636 - INFO - Tentando clicar no elemento: //*[@id="formulario"]/div/div/div[2]/div[1]/div/div/div[2]/div/label
+2025-09-17 11:36:13,687 - INFO - Clique bem-sucedido no elemento: //*[@id="formulario"]/div/div/div[2]/div[1]/div/div/div[2]/div/label
+2025-09-17 11:36:13,689 - INFO - Primeiro clique realizado
+2025-09-17 11:36:15,690 - INFO - Aguardando presença do elemento: //*[@id="periodoInicial"]
+2025-09-17 11:36:15,700 - INFO - Elemento localizado com sucesso: //*[@id="periodoInicial"]
+2025-09-17 11:36:15,770 - INFO - Aguardando presença do elemento: //*[@id="periodoFinal"]
+2025-09-17 11:36:15,785 - INFO - Elemento localizado com sucesso: //*[@id="periodoFinal"]
+2025-09-17 11:36:15,834 - ERROR - Erro ao pegar pedidos: name 'date' is not defined
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\Loja\cupom_vendas.py", line 643, in pegarCupomVendas
+    data_atual = date.today().strftime("%d/%m/%Y")
+                 ^^^^
+NameError: name 'date' is not defined

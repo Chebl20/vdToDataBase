@@ -1,0 +1,97 @@
+2025-09-17 11:14:42,585 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 11:14:42,585 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 11:14:42,588 - INFO - Configurando opções do Chrome
+2025-09-17 11:14:42,588 - INFO - Iniciando Chrome
+2025-09-17 11:14:48,201 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 11:14:48,388 - INFO - Setup do Selenium concluído
+2025-09-17 11:14:56,455 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 11:14:56,469 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 11:14:58,583 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 11:14:58,616 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 11:15:00,901 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:15:00,996 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:15:10,998 - INFO - Chamando método pegarItensVendas()
+2025-09-17 11:15:10,998 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 11:15:10,998 - INFO - Navegando para o menu de pedidos
+2025-09-17 11:15:10,999 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:15:11,039 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:15:11,039 - INFO - Expandindo submenu
+2025-09-17 11:15:11,039 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:15:11,629 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:15:11,629 - INFO - Acessando consulta de pedidos
+2025-09-17 11:15:11,629 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:15:12,213 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:15:15,214 - INFO - Voltando para o conteúdo principal
+2025-09-17 11:15:20,327 - INFO - Encontrados 3 iframes
+2025-09-17 11:15:20,327 - INFO - Tentando iframe 0
+2025-09-17 11:15:20,365 - INFO - Elemento encontrado no iframe 0
+2025-09-17 11:15:20,365 - INFO - Aguardando elemento estar disponível para clique
+2025-09-17 11:15:21,475 - ERROR - Erro ao pegar pedidos: Message: element click intercepted: Element <label>...</label> is not clickable at point (494, 467). Other element would receive the click: <div class="form-action" style="width: 973px;">...</div>
+  (Session info: chrome=140.0.7339.128)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d20bc5d9]
+	(No symbol) [0x0x7ff6d20b9f5e]
+	(No symbol) [0x0x7ff6d20b6eb1]
+	(No symbol) [0x0x7ff6d20b5da0]
+	(No symbol) [0x0x7ff6d20a7338]
+	(No symbol) [0x0x7ff6d20dcada]
+	(No symbol) [0x0x7ff6d20a6bc6]
+	(No symbol) [0x0x7ff6d20dccf0]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\Loja\cupom_vendas.py", line 632, in pegarCupomVendas
+    elemento.click()
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 94, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 395, in _execute
+    return self._parent.execute(command, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementClickInterceptedException: Message: element click intercepted: Element <label>...</label> is not clickable at point (494, 467). Other element would receive the click: <div class="form-action" style="width: 973px;">...</div>
+  (Session info: chrome=140.0.7339.128)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d20bc5d9]
+	(No symbol) [0x0x7ff6d20b9f5e]
+	(No symbol) [0x0x7ff6d20b6eb1]
+	(No symbol) [0x0x7ff6d20b5da0]
+	(No symbol) [0x0x7ff6d20a7338]
+	(No symbol) [0x0x7ff6d20dcada]
+	(No symbol) [0x0x7ff6d20a6bc6]
+	(No symbol) [0x0x7ff6d20dccf0]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+

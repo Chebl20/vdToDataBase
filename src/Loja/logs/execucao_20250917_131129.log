@@ -1,0 +1,89 @@
+2025-09-17 13:11:29,546 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 13:11:29,546 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 13:11:29,547 - INFO - Configurando opções do Chrome
+2025-09-17 13:11:29,547 - INFO - Iniciando Chrome
+2025-09-17 13:11:33,690 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 13:11:33,944 - INFO - Setup do Selenium concluído
+2025-09-17 13:11:41,974 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 13:11:41,990 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 13:11:44,120 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 13:11:44,161 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 13:11:46,477 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 13:11:46,675 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 13:11:56,683 - INFO - Chamando método pegarItensVendas()
+2025-09-17 13:11:56,683 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 13:11:56,684 - INFO - Navegando para o menu de pedidos
+2025-09-17 13:11:56,684 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 13:11:56,729 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 13:11:56,729 - INFO - Expandindo submenu
+2025-09-17 13:11:56,730 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 13:11:57,292 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 13:11:57,293 - INFO - Acessando consulta de pedidos
+2025-09-17 13:11:57,293 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 13:11:57,875 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 13:12:00,877 - INFO - Voltando para o conteúdo principal
+2025-09-17 13:12:06,004 - INFO - Encontrados 3 iframes
+2025-09-17 13:12:06,005 - INFO - Tentando iframe 0
+2025-09-17 13:12:06,048 - INFO - Elemento encontrado no iframe 0
+2025-09-17 13:12:06,048 - INFO - Preenchendo datas: 16092025 a 17092025
+2025-09-17 13:12:06,048 - INFO - Aguardando presença do elemento: //*[@id="periodoInicial"]
+2025-09-17 13:12:06,059 - INFO - Elemento localizado com sucesso: //*[@id="periodoInicial"]
+2025-09-17 13:12:06,059 - INFO - Aguardando presença do elemento: //*[@id="periodoFinal"]
+2025-09-17 13:12:06,070 - INFO - Elemento localizado com sucesso: //*[@id="periodoFinal"]
+2025-09-17 13:12:11,159 - INFO - Preenchendo datas: Início=16092025, Fim=17092025
+2025-09-17 13:12:11,161 - INFO - Processando dropdown Select2
+2025-09-17 13:12:11,161 - INFO - Tentando clicar no elemento: //*[@id="select2-quebra-container"]
+2025-09-17 13:12:11,193 - INFO - Clique bem-sucedido no elemento: //*[@id="select2-quebra-container"]
+2025-09-17 13:12:23,531 - ERROR - Erro ao pegar pedidos: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d20b4457]
+	(No symbol) [0x0x7ff6d20b471c]
+	(No symbol) [0x0x7ff6d2108217]
+	(No symbol) [0x0x7ff6d20dcb1f]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 686, in pegarABCVendas
+    campo_pesquisa = WebDriverWait(self.driver, 10).until(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 105, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d20b4457]
+	(No symbol) [0x0x7ff6d20b471c]
+	(No symbol) [0x0x7ff6d2108217]
+	(No symbol) [0x0x7ff6d20dcb1f]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+

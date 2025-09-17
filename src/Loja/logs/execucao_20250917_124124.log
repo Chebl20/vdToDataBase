@@ -1,0 +1,36 @@
+2025-09-17 12:41:24,050 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 12:41:24,050 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 12:41:24,051 - INFO - Configurando opções do Chrome
+2025-09-17 12:41:24,051 - INFO - Iniciando Chrome
+2025-09-17 12:41:30,508 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 12:41:30,616 - INFO - Setup do Selenium concluído
+2025-09-17 12:41:39,658 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 12:41:39,692 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 12:41:42,243 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 12:41:42,352 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 12:41:44,755 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 12:41:44,848 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 12:41:54,852 - INFO - Chamando método pegarItensVendas()
+2025-09-17 12:41:54,853 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 12:41:54,854 - INFO - Navegando para o menu de pedidos
+2025-09-17 12:41:54,854 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 12:41:54,894 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 12:41:54,895 - INFO - Expandindo submenu
+2025-09-17 12:41:54,895 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 12:41:55,451 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 12:41:55,453 - INFO - Acessando consulta de pedidos
+2025-09-17 12:41:55,453 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 12:41:56,038 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 12:41:59,042 - INFO - Voltando para o conteúdo principal
+2025-09-17 12:42:04,180 - INFO - Encontrados 3 iframes
+2025-09-17 12:42:04,181 - INFO - Tentando iframe 0
+2025-09-17 12:42:04,221 - INFO - Elemento encontrado no iframe 0
+2025-09-17 12:42:04,222 - INFO - Aguardando elemento estar disponível para clique
+2025-09-17 12:42:04,222 - INFO - Tentando clicar no elemento: //*[@id="select2-quebra-container"]
+2025-09-17 12:42:04,256 - INFO - Clique bem-sucedido no elemento: //*[@id="select2-quebra-container"]
+2025-09-17 12:42:04,257 - ERROR - Erro ao pegar pedidos: 'bool' object has no attribute 'send_keys'
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\Loja\abc_vendas.py", line 629, in pegarABCVendas
+    self._esperar_e_clicar(By.XPATH, alvo_xpath).send_keys("Data").send_keys(Keys.ENTER)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'bool' object has no attribute 'send_keys'

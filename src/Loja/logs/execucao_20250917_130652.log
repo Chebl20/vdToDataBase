@@ -1,0 +1,145 @@
+2025-09-17 13:06:52,386 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 13:06:52,386 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 13:06:52,387 - INFO - Configurando opções do Chrome
+2025-09-17 13:06:52,387 - INFO - Iniciando Chrome
+2025-09-17 13:06:56,925 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 13:06:57,109 - INFO - Setup do Selenium concluído
+2025-09-17 13:06:59,287 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 13:07:10,942 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 13:07:13,127 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 13:07:13,139 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 13:07:15,220 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 13:07:15,276 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 13:07:25,278 - INFO - Chamando método pegarItensVendas()
+2025-09-17 13:07:25,281 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 13:07:25,282 - INFO - Navegando para o menu de pedidos
+2025-09-17 13:07:25,283 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 13:07:25,412 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 13:07:25,413 - INFO - Expandindo submenu
+2025-09-17 13:07:25,413 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 13:07:25,990 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-17 13:07:25,991 - INFO - Acessando consulta de pedidos
+2025-09-17 13:07:25,991 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 13:07:26,578 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-17 13:07:29,584 - INFO - Voltando para o conteúdo principal
+2025-09-17 13:07:29,635 - INFO - Encontrados 3 iframes
+2025-09-17 13:07:29,635 - INFO - Tentando iframe 0
+2025-09-17 13:07:29,682 - WARNING - Erro no iframe 0: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebr
+2025-09-17 13:07:29,682 - INFO - Tentando iframe 1
+2025-09-17 13:07:29,724 - WARNING - Erro no iframe 1: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebr
+2025-09-17 13:07:29,726 - INFO - Tentando iframe 2
+2025-09-17 13:07:29,773 - WARNING - Erro no iframe 2: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebr
+2025-09-17 13:07:29,773 - WARNING - Elemento não encontrado em nenhum iframe
+2025-09-17 13:07:29,775 - WARNING - Não foi possível entrar no iframe. Tentando alternativas...
+2025-09-17 13:07:29,875 - INFO - Processando dropdown Select2
+2025-09-17 13:07:29,876 - INFO - Tentando clicar no elemento: //*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d
+2025-09-17 13:07:29,882 - WARNING - Tentativa 1 falhou, tentando novamente em 1 segundo... Erro: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebr
+2025-09-17 13:07:30,891 - WARNING - Tentativa 2 falhou, tentando novamente em 1 segundo... Erro: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebr
+2025-09-17 13:07:31,904 - ERROR - Erro ao clicar no elemento //*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d because of the following error:
+SyntaxError: Failed to execute 'evaluate' on 'Document': The string '//*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d' is not a valid XPath expression.
+  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d206461a]
+	(No symbol) [0x0x7ff6d206770f]
+	(No symbol) [0x0x7ff6d20677cf]
+	(No symbol) [0x0x7ff6d20b3d07]
+	(No symbol) [0x0x7ff6d20b471c]
+	(No symbol) [0x0x7ff6d2108217]
+	(No symbol) [0x0x7ff6d20dcb1f]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+
+2025-09-17 13:07:31,904 - ERROR - Erro ao pegar pedidos: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d because of the following error:
+SyntaxError: Failed to execute 'evaluate' on 'Document': The string '//*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d' is not a valid XPath expression.
+  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d206461a]
+	(No symbol) [0x0x7ff6d206770f]
+	(No symbol) [0x0x7ff6d20677cf]
+	(No symbol) [0x0x7ff6d20b3d07]
+	(No symbol) [0x0x7ff6d20b471c]
+	(No symbol) [0x0x7ff6d2108217]
+	(No symbol) [0x0x7ff6d20dcb1f]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 629, in pegarABCVendas
+    self._esperar_e_clicar(By.XPATH, alvo_xpath)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 484, in _esperar_e_clicar
+    elemento = self.wait.until(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 96, in until
+    value = method(self._driver)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 363, in _predicate
+    target = driver.find_element(*target)  # grab element at locator
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\seleniumbase\core\sb_driver.py", line 20, in find_element
+    return self.driver.default_find_element(by=by, value=value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 742, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.InvalidSelectorException: Message: invalid selector: Unable to locate an element with the xpath expression //*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d because of the following error:
+SyntaxError: Failed to execute 'evaluate' on 'Document': The string '//*[@id="nivelQuebra"]/div[1]/span/span[1]/span/span[2]d' is not a valid XPath expression.
+  (Session info: chrome=140.0.7339.128); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6d22dfc95+79861]
+	GetHandleVerifier [0x0x7ff6d22dfcf0+79952]
+	(No symbol) [0x0x7ff6d205cada]
+	(No symbol) [0x0x7ff6d206461a]
+	(No symbol) [0x0x7ff6d206770f]
+	(No symbol) [0x0x7ff6d20677cf]
+	(No symbol) [0x0x7ff6d20b3d07]
+	(No symbol) [0x0x7ff6d20b471c]
+	(No symbol) [0x0x7ff6d2108217]
+	(No symbol) [0x0x7ff6d20dcb1f]
+	(No symbol) [0x0x7ff6d2104f8b]
+	(No symbol) [0x0x7ff6d20dc8b3]
+	(No symbol) [0x0x7ff6d20a5272]
+	(No symbol) [0x0x7ff6d20a6043]
+	GetHandleVerifier [0x0x7ff6d259b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6d2595c4a+2922410]
+	GetHandleVerifier [0x0x7ff6d25b59d7+3052855]
+	GetHandleVerifier [0x0x7ff6d22faa7e+189918]
+	GetHandleVerifier [0x0x7ff6d2302a1f+222591]
+	GetHandleVerifier [0x0x7ff6d22e8ab4+116244]
+	GetHandleVerifier [0x0x7ff6d22e8c69+116681]
+	GetHandleVerifier [0x0x7ff6d22cf048+11176]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+

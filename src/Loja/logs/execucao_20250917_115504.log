@@ -1,0 +1,37 @@
+2025-09-17 11:55:04,900 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 11:55:04,906 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 11:55:04,907 - INFO - Configurando opções do Chrome
+2025-09-17 11:55:04,908 - INFO - Iniciando Chrome
+2025-09-17 11:55:10,702 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 11:55:10,956 - INFO - Setup do Selenium concluído
+2025-09-17 11:55:21,698 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 11:55:21,723 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 11:55:23,879 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 11:55:24,014 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 11:55:26,290 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:55:26,442 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:55:36,443 - INFO - Chamando método pegarItensVendas()
+2025-09-17 11:55:36,443 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 11:55:36,443 - INFO - Navegando para o menu de pedidos
+2025-09-17 11:55:36,443 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:55:36,484 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:55:36,485 - INFO - Expandindo submenu
+2025-09-17 11:55:36,485 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:55:37,060 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:55:37,060 - INFO - Acessando consulta de pedidos
+2025-09-17 11:55:37,060 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:55:37,635 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:55:40,639 - INFO - Voltando para o conteúdo principal
+2025-09-17 11:55:45,757 - INFO - Encontrados 3 iframes
+2025-09-17 11:55:45,757 - INFO - Tentando iframe 0
+2025-09-17 11:55:45,798 - INFO - Elemento encontrado no iframe 0
+2025-09-17 11:55:45,798 - INFO - Aguardando elemento estar disponível para clique
+2025-09-17 11:55:45,798 - INFO - Tentando clicar no elemento: //*[@id="formulario"]/div/div/div[2]/div[1]/div/div/div[2]/div/label
+2025-09-17 11:55:45,843 - INFO - Clique bem-sucedido no elemento: //*[@id="formulario"]/div/div/div[2]/div[1]/div/div/div[2]/div/label
+2025-09-17 11:55:45,844 - INFO - Primeiro clique realizado
+2025-09-17 11:55:47,844 - ERROR - Erro ao pegar pedidos: cannot access local variable 'campo_inicial' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\Loja\cupom_vendas.py", line 638, in pegarCupomVendas
+    campo_inicial.clear()
+    ^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'campo_inicial' where it is not associated with a value

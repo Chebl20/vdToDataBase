@@ -1,0 +1,24 @@
+2025-09-17 11:00:49,354 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-17 11:00:49,355 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-17 11:00:49,357 - INFO - Configurando opções do Chrome
+2025-09-17 11:00:49,357 - INFO - Iniciando Chrome
+2025-09-17 11:00:54,862 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-17 11:00:55,118 - INFO - Setup do Selenium concluído
+2025-09-17 11:01:04,664 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-17 11:01:04,692 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-17 11:01:06,836 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-17 11:01:06,847 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-17 11:01:08,942 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:01:09,602 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-17 11:01:19,608 - INFO - Chamando método pegarItensVendas()
+2025-09-17 11:01:19,608 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-17 11:01:19,608 - INFO - Navegando para o menu de pedidos
+2025-09-17 11:01:19,608 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:01:19,651 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-17 11:01:19,651 - INFO - Expandindo submenu
+2025-09-17 11:01:19,651 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:01:20,214 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-603"]
+2025-09-17 11:01:20,214 - INFO - Acessando consulta de pedidos
+2025-09-17 11:01:20,214 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:01:20,784 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-155"]
+2025-09-17 11:01:20,785 - INFO - Tentando clicar no elemento: //*[@id="formulario"]/div/div/div[2]/div[1]/div/div/div[2]/div/label
