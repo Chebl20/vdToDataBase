@@ -92,8 +92,8 @@ class TratarDados():
         usuario_downloads = os.path.join(os.path.expanduser('~'), 'Downloads')
 
         padroes = [
-            os.path.join(projeto_downloads, '*.xlsx'),
-            os.path.join(usuario_downloads, '*.xlsx'),
+            os.path.join(projeto_downloads, '*.csv'),
+            os.path.join(usuario_downloads, '*.csv'),
         ]
 
         list_of_files = []
@@ -103,45 +103,44 @@ class TratarDados():
                 list_of_files.extend(arquivos)
 
         if not list_of_files:
-            raise FileNotFoundError("Nenhum arquivo XLSX encontrado nas pastas padrão ('downloads' do projeto ou 'Downloads' do usuário).")
+            raise FileNotFoundError("Nenhum arquivo CSV encontrado nas pastas padrão ('downloads' do projeto ou 'Downloads' do usuário).")
 
         self.file = max(list_of_files, key=os.path.getctime)
+        self.file = r"C:\Users\Grupo Garbo\Downloads\relatorioABCVenda (2).csv"
         
 
-    def processar_arquivo_itens_pedidos(self):
+    def processar_arquivo_abc_vendas(self):
         try:
             logger.info(f"Iniciando processamento do arquivo: {self.file}")
-            df = pd.read_excel(self.file, dtype=str)
+            
+            df = pd.read_csv(self.file,
+                             sep=';',
+                             encoding='utf-8',
+                             on_bad_lines='skip',
+                             engine='python',
+                             dtype=str)
+            
             logger.info(f"Arquivo lido com sucesso. Total de linhas: {len(df)}")
 
             # Mapeamento de colunas para os novos dados
             mapeamento_colunas = {
-                'Código Pedido': 'CodigoPedido',
-                'Código Produto': 'CodigoProduto',
-                'Produto': 'Produto',
-                'Data captação pedido': 'DataCaptacao',
-                'Ciclo captação pedido': 'CicloCaptacao',
-                'Data faturamento': 'DataFaturamento',
-                'Ciclo faturamento': 'CicloFaturamento',
-                'Código Revendedor': 'Pessoa',
-                'Revendedor': 'NomePessoa',
-                'Papel': 'Papel',
-                'Situação Fiscal': 'SituacaoFiscal',
-                'Nota Fiscal': 'NotaFiscal',
-                'Meio de captação': 'MeioCaptacao',
-                'Código plano pagamento': 'CodPlanoPagamento',
-                'Plano de pagamento': 'PlanoPagamento',
-                'Tipo de Entrega': 'TipoEntrega',
-                'Código usuário criação': 'CodUsuarioCriacao',
-                'Usuário criação': 'UsuarioCriacao',
-                'Código usuário finalização': 'CodUsuarioFinalizacao',
-                'Usuário finalização': 'UsuarioFinalizacao',
-                'Código CD': 'CodCD',
-                'Canal de distribuição': 'CanalDistribuicao',
-                'Qtde': 'QtdItens',
-                'Total Tabela': 'ValorTabela',
-                'Total Praticado': 'ValorPraticado',
-                'Total Líquido': 'ValorLiquido'
+                'Quebra': 'data',
+                'Quebra2': 'Cod_vendedor',
+                'Código': 'Cod_produto',
+                'Descrição': 'Produto',
+                'Quantidade': 'Qtd_itens',
+                'Faturamento': 'Faturamento',
+                'Preço médio': 'Preço_medio',
+                'Custo Total': 'Custo_total',
+                'Imposto Estadual': 'Imposto_estadual',
+                'Imposto Federal': 'Imposto_federal',
+                'Lucro': 'Lucro',
+                'Margem': 'Margem',
+                'Markup': 'Markup',
+                'Participação': 'Participacao',
+                'Acumulado': 'Acumulado',
+                'ICMS ST': 'ICMS_ST',
+                'Fecop ST': 'Fecop_ST'
             }
 
             # Renomear colunas existentes
@@ -832,9 +831,12 @@ if __name__ == "__main__":
     # banco = Banco()
     # banco.criar_tabela()
     # banco.fechar()
-    
+
     # tratar = TratarDados()
-    # df = tratar.processar_arquivo_itens_pedidos()
+    # df = tratar.processar_arquivo_abc_vendas()
+    
+    
+    
     # banco.inserirItensPedidos(df)
 
     # banco.fechar()

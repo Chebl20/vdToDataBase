@@ -1,0 +1,95 @@
+2025-09-18 09:03:20,102 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-18 09:03:20,103 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-18 09:03:20,103 - INFO - Configurando opções do Chrome
+2025-09-18 09:03:20,103 - INFO - Iniciando Chrome
+2025-09-18 09:03:25,390 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-18 09:03:25,468 - INFO - Setup do Selenium concluído
+2025-09-18 09:06:11,551 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-18 09:06:40,632 - WARNING - Tentativa 1 falhou, tentando novamente em 1 segundo... Erro: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnec
+2025-09-18 09:06:41,646 - WARNING - Tentativa 2 falhou, tentando novamente em 1 segundo... Erro: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff767d4fc95+79861]
+	GetHandleVerifi
+2025-09-18 09:06:42,650 - ERROR - Erro ao esperar elemento //*[@id="input-19"]: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff767d4fc95+79861]
+	GetHandleVerifier [0x0x7ff767d4fcf0+79952]
+	(No symbol) [0x0x7ff767acc8fc]
+	(No symbol) [0x0x7ff767b1438d]
+	(No symbol) [0x0x7ff767b4c9a2]
+	(No symbol) [0x0x7ff767b47374]
+	(No symbol) [0x0x7ff767b4642a]
+	(No symbol) [0x0x7ff767a97075]
+	GetHandleVerifier [0x0x7ff76800b9cd+2946349]
+	GetHandleVerifier [0x0x7ff768005c4a+2922410]
+	GetHandleVerifier [0x0x7ff7680259d7+3052855]
+	GetHandleVerifier [0x0x7ff767d6aa7e+189918]
+	GetHandleVerifier [0x0x7ff767d72a1f+222591]
+	(No symbol) [0x0x7ff767a9602c]
+	GetHandleVerifier [0x0x7ff76813e3f8+4202328]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+
+2025-09-18 09:06:42,652 - ERROR - Erro ao fazer login: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff767d4fc95+79861]
+	GetHandleVerifier [0x0x7ff767d4fcf0+79952]
+	(No symbol) [0x0x7ff767acc8fc]
+	(No symbol) [0x0x7ff767b1438d]
+	(No symbol) [0x0x7ff767b4c9a2]
+	(No symbol) [0x0x7ff767b47374]
+	(No symbol) [0x0x7ff767b4642a]
+	(No symbol) [0x0x7ff767a97075]
+	GetHandleVerifier [0x0x7ff76800b9cd+2946349]
+	GetHandleVerifier [0x0x7ff768005c4a+2922410]
+	GetHandleVerifier [0x0x7ff7680259d7+3052855]
+	GetHandleVerifier [0x0x7ff767d6aa7e+189918]
+	GetHandleVerifier [0x0x7ff767d72a1f+222591]
+	(No symbol) [0x0x7ff767a9602c]
+	GetHandleVerifier [0x0x7ff76813e3f8+4202328]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 574, in entrar
+    self._esperar_elemento(By.XPATH, r'//*[@id="input-19"]').send_keys(usuario)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 503, in _esperar_elemento
+    elemento = self.wait.until(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 96, in until
+    value = method(self._driver)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 84, in _predicate
+    return driver.find_element(*locator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\seleniumbase\core\sb_driver.py", line 20, in find_element
+    return self.driver.default_find_element(by=by, value=value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 742, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.InvalidSessionIdException: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff767d4fc95+79861]
+	GetHandleVerifier [0x0x7ff767d4fcf0+79952]
+	(No symbol) [0x0x7ff767acc8fc]
+	(No symbol) [0x0x7ff767b1438d]
+	(No symbol) [0x0x7ff767b4c9a2]
+	(No symbol) [0x0x7ff767b47374]
+	(No symbol) [0x0x7ff767b4642a]
+	(No symbol) [0x0x7ff767a97075]
+	GetHandleVerifier [0x0x7ff76800b9cd+2946349]
+	GetHandleVerifier [0x0x7ff768005c4a+2922410]
+	GetHandleVerifier [0x0x7ff7680259d7+3052855]
+	GetHandleVerifier [0x0x7ff767d6aa7e+189918]
+	GetHandleVerifier [0x0x7ff767d72a1f+222591]
+	(No symbol) [0x0x7ff767a9602c]
+	GetHandleVerifier [0x0x7ff76813e3f8+4202328]
+	BaseThreadInitThunk [0x0x7ff8e666e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e8428d9c+44]
+
