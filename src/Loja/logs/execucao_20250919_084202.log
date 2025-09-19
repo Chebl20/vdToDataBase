@@ -1,0 +1,39 @@
+2025-09-19 08:42:02,616 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-19 08:42:02,618 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-19 08:42:02,619 - INFO - Configurando opções do Chrome
+2025-09-19 08:42:02,619 - INFO - Iniciando Chrome
+2025-09-19 08:42:08,890 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-19 08:42:08,986 - INFO - Setup do Selenium concluído
+2025-09-19 08:42:17,685 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-19 08:42:17,704 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-19 08:42:19,851 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-19 08:42:19,917 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-19 08:42:23,009 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-19 08:42:23,466 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-19 08:42:33,486 - INFO - Chamando método pegarItensVendas()
+2025-09-19 08:42:33,487 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-19 08:42:33,487 - INFO - Navegando para o menu de pedidos
+2025-09-19 08:42:33,487 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-19 08:42:33,548 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-19 08:42:33,549 - INFO - Expandindo submenu
+2025-09-19 08:42:33,549 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-19 08:42:34,132 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-19 08:42:34,134 - INFO - Acessando consulta de pedidos
+2025-09-19 08:42:34,134 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-19 08:42:34,728 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-19 08:42:37,734 - INFO - Voltando para o conteúdo principal
+2025-09-19 08:42:43,186 - INFO - Encontrados 3 iframes
+2025-09-19 08:42:43,186 - INFO - Tentando iframe 0
+2025-09-19 08:42:43,250 - INFO - Elemento encontrado no iframe 0
+2025-09-19 08:42:43,250 - INFO - Preenchendo datas: 18092025 a 19092025
+2025-09-19 08:42:43,251 - INFO - Aguardando presença do elemento: //*[@id="periodoInicial"]
+2025-09-19 08:42:43,266 - INFO - Elemento localizado com sucesso: //*[@id="periodoInicial"]
+2025-09-19 08:42:43,266 - INFO - Aguardando presença do elemento: //*[@id="periodoFinal"]
+2025-09-19 08:42:43,280 - INFO - Elemento localizado com sucesso: //*[@id="periodoFinal"]
+2025-09-19 08:42:47,975 - ERROR - Erro ao pegar pedidos: send_keys() missing 1 required positional argument: 'text'
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 633, in pegarABCVendas
+    self.driver.send_keys(Keys.TAB)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\seleniumbase\core\sb_driver.py", line 71, in send_keys
+    page_actions.send_keys(self.driver, *args, **kwargs)
+TypeError: send_keys() missing 1 required positional argument: 'text'

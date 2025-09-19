@@ -1,0 +1,3 @@
+2025-09-18 10:11:59,359 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-18 10:11:59,368 - INFO - Iniciando processamento do arquivo: C:\Users\Grupo Garbo\Downloads\relatorioABCVenda (2).csv
+2025-09-18 10:11:59,369 - ERROR - Erro ao processar arquivo: 'utf-8' codec can't decode byte 0xf3 in position 16: invalid continuation byte

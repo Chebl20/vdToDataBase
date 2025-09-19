@@ -1,0 +1,35 @@
+2025-09-19 08:53:35,619 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-19 08:53:35,621 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-19 08:53:35,621 - INFO - Configurando opções do Chrome
+2025-09-19 08:53:35,621 - INFO - Iniciando Chrome
+2025-09-19 08:53:38,506 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-19 08:53:38,619 - INFO - Setup do Selenium concluído
+2025-09-19 08:53:47,156 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-19 08:53:47,172 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-19 08:53:49,306 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-19 08:53:49,456 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-19 08:53:51,707 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-19 08:53:52,008 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-19 08:54:02,036 - INFO - Chamando método pegarItensVendas()
+2025-09-19 08:54:02,037 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-19 08:54:02,038 - INFO - Navegando para o menu de pedidos
+2025-09-19 08:54:02,038 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-19 08:54:02,241 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-19 08:54:02,243 - INFO - Expandindo submenu
+2025-09-19 08:54:02,244 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-19 08:54:02,843 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-19 08:54:02,843 - INFO - Acessando consulta de pedidos
+2025-09-19 08:54:02,843 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-19 08:54:03,514 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-19 08:54:06,518 - INFO - Voltando para o conteúdo principal
+2025-09-19 08:54:11,812 - INFO - Encontrados 3 iframes
+2025-09-19 08:54:11,812 - INFO - Tentando iframe 0
+2025-09-19 08:54:12,013 - INFO - Elemento encontrado no iframe 0
+2025-09-19 08:54:12,017 - INFO - Preenchendo datas: 18092025 a 19092025
+2025-09-19 08:54:12,017 - INFO - Aguardando presença do elemento: //*[@id="periodoInicial"]
+2025-09-19 08:54:12,061 - INFO - Elemento localizado com sucesso: //*[@id="periodoInicial"]
+2025-09-19 08:54:12,062 - INFO - Aguardando presença do elemento: //*[@id="periodoFinal"]
+2025-09-19 08:54:12,083 - INFO - Elemento localizado com sucesso: //*[@id="periodoFinal"]
+2025-09-19 08:54:12,660 - INFO - Preenchendo datas: Início=18092025, Fim=19092025
+2025-09-19 08:54:19,461 - INFO - Clicando no segundo elemento
+2025-09-19 08:54:19,461 - INFO - Tentando clicar no elemento: //*[@id="formulario"]/div/div/div[2]/div[2]/div/div/div[3]/div/label

@@ -34,6 +34,9 @@ from pandas.api.types import is_scalar
 import psycopg2.extras
 from seleniumbase import Driver
 from psycopg2.extras import execute_values
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
+import time
 
 # Configuração do sistema de logging
 
@@ -115,10 +118,9 @@ class TratarDados():
             
             df = pd.read_csv(self.file,
                              sep=';',
-                             encoding='utf-8',
+                             encoding='ISO-8859-1',
                              on_bad_lines='skip',
-                             engine='python',
-                             dtype=str)
+                             engine='python')
             
             logger.info(f"Arquivo lido com sucesso. Total de linhas: {len(df)}")
 
@@ -149,56 +151,27 @@ class TratarDados():
             df = df.rename(columns=colunas_existentes)
             
             
-            colunas_str = ['CodigoProduto']
-            for col in colunas_str:
+            df[["id_consultor", "nome_consultor"]] = df["Cod_vendedor"].str.split(" - ", n=1, expand=True)
+            df = df.drop(columns=["Cod_vendedor"])
+            
+            
+            # Converter colunas numéricas
+            cols_numericas = [
+                "Qtd_itens", "Faturamento", "Preço_medio", "Custo_total",
+                "Imposto_estadual", "Imposto_federal", "Lucro", "Margem",
+                "Markup", "Participacao", "Acumulado", "ICMS_ST", "Fecop_ST"
+            ]
+
+            for col in cols_numericas:
                 if col in df.columns:
-                    df[col] = df[col].astype(str).str.replace('[.,]', '', regex=True).fillna('')
+                    # trocar vírgula por ponto antes de converter
+                    df[col] = pd.to_numeric(df[col].astype(str).str.replace('.', '', regex=False).str.replace(',', '.'), errors="coerce")
 
-            # Converter colunas numéricas e de string
-            colunas_str = ['CodigoPedido', 'Pessoa', 'CodUsuarioCriacao', 'CodUsuarioFinalizacao', 'CodCD', 'CodPlanoPagamento', 'CodigoProduto', 'NotaFiscal']
-            for col in colunas_str:
-                if col in df.columns:
-                    df[col] = (
-                        df[col]
-                        .astype(str)
-                        .str.replace('[.,]', '', regex=True)
-                        .replace('nan', '')
-                    )
-
-            # Processar colunas de data
-            if 'DataCaptacao' in df.columns:
-                df['DataCaptacao'] = pd.to_datetime(df['DataCaptacao'], errors='coerce', dayfirst=True)
-                df['DataCaptacao'] = df['DataCaptacao'].dt.date
-
-            if 'DataFaturamento' in df.columns:
-                df['DataFaturamento'] = pd.to_datetime(df['DataFaturamento'], errors='coerce', dayfirst=True)
-                df['DataFaturamento'] = df['DataFaturamento'].dt.date
-
-            # Processar valores monetários
-            colunas_monetarias = ['ValorTabela', 'ValorPraticado', 'ValorLiquido']
-            for col in colunas_monetarias:
-                if col in df.columns:
-                    df[col] = (
-                        df[col]
-                        .astype(str)
-                        .str.replace('R\$ ', '', regex=True)  # Remove "R$ "
-                        .str.replace('.', '', regex=False)
-                        .str.replace(',', '.', regex=False)
-                    )
-                    df[col] = pd.to_numeric(df[col], errors='coerce', downcast='float')
-
-            # Processar quantidade
-            if 'QtdItens' in df.columns:
-                df['QtdItens'] = pd.to_numeric(df['QtdItens'], errors='coerce').fillna(0).astype(int)
-
-            # Manter apenas colunas mapeadas
-            colunas_validas = [col for col in mapeamento_colunas.values() if col in df.columns]
-            df = df[colunas_validas]
+            df["id_consultor"] = pd.to_numeric(df["id_consultor"], errors="coerce").astype("Int64")
 
             # Substituir valores NaN por None
             df = df.where(pd.notna(df), None)
             
-            df = df[(df['NotaFiscal'] != '0') ]
 
             logger.info("Processamento concluído com sucesso")
             return df
@@ -466,6 +439,9 @@ class PegarGoogle():
             
             # Inicializar variáveis de ciclo
             self.ciclo = None
+            
+            actions = ActionChains(self.driver)
+            self.actions = actions
 
         except Exception as e:
             logger.error(f"Erro ao inicializar o Chrome: {e}")
@@ -644,6 +620,7 @@ class PegarGoogle():
             campo_inicial.clear()
             time.sleep(0.5)
             
+            logger.info(f"Preenchendo datas: Início={dataI}, Fim={dataF}")
             
             campo_inicial.send_keys(Keys.HOME)
             time.sleep(0.5)
@@ -660,48 +637,58 @@ class PegarGoogle():
             campo_final.send_keys(dataF)
             time.sleep(1)
             
-            self.driver.send_keys(Keys.TAB)
-            time.sleep(0.5)
-            self.driver.send_keys(Keys.ENTER)
-            time.sleep(0.5)
+            self._esperar_e_clicar(By.XPATH, r'//*[@id="select2-quebra-container"]')
             
-            self.driver.send_keys("Data")
+            self.actions.send_keys(Keys.TAB).perform()
             time.sleep(0.5)
             
-            logger.info(f"Preenchendo datas: Início={dataI}, Fim={dataF}")
+            self.actions.send_keys(Keys.ENTER).perform()
+            time.sleep(0.5)
             
+            self.actions.send_keys("Data").perform()
+            time.sleep(0.5)
             
+            self.actions.key_down(Keys.SHIFT).send_keys(Keys.TAB).key_up(Keys.SHIFT).perform()
+            time.sleep(0.5)
             
-            # --- Para elementos Select2 ---
-            logger.info("Processando dropdown Select2")
+            self.actions.send_keys(Keys.ENTER).perform()
+            time.sleep(0.5)
             
-            # 1. Primeiro clique para abrir o dropdown
-            self._esperar_e_clicar(By.XPATH, alvo_xpath)
-            time.sleep(2)
-            
-            # 2. Aguardar o dropdown abrir e localizar o campo de pesquisa
-            # O campo de pesquisa do Select2 geralmente tem a classe .select2-search__field
-            campo_pesquisa_xpath = "//input[@class='select2-search__field']"
-            
-            # Aguardar o campo de pesquisa aparecer
-            campo_pesquisa = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, campo_pesquisa_xpath))
-            )
-            
-            # 3. Digitar "Data" no campo de pesquisa
-            campo_pesquisa.clear()
-            campo_pesquisa.send_keys("Data")
-            time.sleep(1)
-            
-            # 4. Selecionar a opção (pressionar Enter ou clicar na opção)
-            campo_pesquisa.send_keys(Keys.ENTER)
-            time.sleep(2)
-            
-            logger.info("Opção 'Data' selecionada com sucesso")
+            self.actions.send_keys("Vendedor").perform()
+            time.sleep(0.5)
+                
         
-            time.sleep(2)
+            
+            # # --- Para elementos Select2 ---
+            # logger.info("Processando dropdown Select2")
+            
+            # # 1. Primeiro clique para abrir o dropdown
+            # self._esperar_e_clicar(By.XPATH, alvo_xpath)
+            # time.sleep(2)
+            
+            # # 2. Aguardar o dropdown abrir e localizar o campo de pesquisa
+            # # O campo de pesquisa do Select2 geralmente tem a classe .select2-search__field
+            # campo_pesquisa_xpath = "//input[@class='select2-search__field']"
+            
+            # # Aguardar o campo de pesquisa aparecer
+            # campo_pesquisa = WebDriverWait(self.driver, 10).until(
+            #     EC.presence_of_element_located((By.XPATH, campo_pesquisa_xpath))
+            # )
+            
+            # # 3. Digitar "Data" no campo de pesquisa
+            # campo_pesquisa.clear()
+            # campo_pesquisa.send_keys("Data")
+            # time.sleep(1)
+            
+            # # 4. Selecionar a opção (pressionar Enter ou clicar na opção)
+            # campo_pesquisa.send_keys(Keys.ENTER)
+            # time.sleep(2)
+            
+            # logger.info("Opção 'Data' selecionada com sucesso")
+        
+            # time.sleep(2)
 
-            time.sleep(5)
+            # time.sleep(5)
             
            
             # Clicar nos outros elementos
@@ -834,7 +821,7 @@ if __name__ == "__main__":
 
     # tratar = TratarDados()
     # df = tratar.processar_arquivo_abc_vendas()
-    
+    # df.to_excel("abc_vendas.xlsx", index=False)
     
     
     # banco.inserirItensPedidos(df)

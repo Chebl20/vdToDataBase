@@ -1,0 +1,5 @@
+2025-09-18 10:20:50,908 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-18 10:20:50,916 - INFO - Iniciando processamento do arquivo: C:\Users\Grupo Garbo\Downloads\relatorioABCVenda (2).csv
+2025-09-18 10:20:50,928 - INFO - Arquivo lido com sucesso. Total de linhas: 1492
+2025-09-18 10:20:50,929 - INFO - Colunas renomeadas: ['data', 'Cod_vendedor', 'Cod_produto', 'Produto', 'Qtd_itens', 'Faturamento', 'Preço_medio', 'Custo_total', 'Imposto_estadual', 'Imposto_federal', 'Lucro', 'Margem', 'Markup', 'Participacao', 'Acumulado', 'ICMS_ST', 'Fecop_ST']
+2025-09-18 10:20:50,965 - INFO - Processamento concluído com sucesso

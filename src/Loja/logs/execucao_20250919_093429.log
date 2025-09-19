@@ -1,0 +1,39 @@
+2025-09-19 09:34:29,753 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-19 09:34:29,753 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-19 09:34:29,754 - INFO - Configurando opções do Chrome
+2025-09-19 09:34:29,754 - INFO - Iniciando Chrome
+2025-09-19 09:34:33,279 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-19 09:34:33,381 - INFO - Setup do Selenium concluído
+2025-09-19 09:34:35,394 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-19 09:34:40,877 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-19 09:34:43,000 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-19 09:34:43,039 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-19 09:34:45,171 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-19 09:34:46,323 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-19 09:34:56,333 - INFO - Chamando método pegarItensVendas()
+2025-09-19 09:34:56,335 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-19 09:34:56,335 - INFO - Navegando para o menu de pedidos
+2025-09-19 09:34:56,336 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-19 09:34:56,420 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-19 09:34:56,421 - INFO - Expandindo submenu
+2025-09-19 09:34:56,421 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-19 09:34:56,994 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-19 09:34:56,994 - INFO - Acessando consulta de pedidos
+2025-09-19 09:34:56,995 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-19 09:34:57,635 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-19 09:35:00,636 - INFO - Voltando para o conteúdo principal
+2025-09-19 09:35:06,026 - INFO - Encontrados 3 iframes
+2025-09-19 09:35:06,027 - INFO - Tentando iframe 0
+2025-09-19 09:35:06,152 - INFO - Elemento encontrado no iframe 0
+2025-09-19 09:35:06,154 - INFO - Preenchendo datas: 18092025 a 19092025
+2025-09-19 09:35:06,157 - INFO - Aguardando presença do elemento: //*[@id="periodoInicial"]
+2025-09-19 09:35:06,233 - INFO - Elemento localizado com sucesso: //*[@id="periodoInicial"]
+2025-09-19 09:35:06,234 - INFO - Aguardando presença do elemento: //*[@id="periodoFinal"]
+2025-09-19 09:35:06,250 - INFO - Elemento localizado com sucesso: //*[@id="periodoFinal"]
+2025-09-19 09:35:06,828 - INFO - Preenchendo datas: Início=18092025, Fim=19092025
+2025-09-19 09:35:14,682 - INFO - Clicando no segundo elemento
+2025-09-19 09:35:14,683 - INFO - Tentando clicar no elemento: //*[@id="formulario"]/div/div/div[2]/div[2]/div/div/div[3]/div/label
+2025-09-19 09:37:14,721 - WARNING - Tentativa 1 falhou, tentando novamente em 1 segundo... Erro: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff660d7fc95+79861]
+	GetHandleVerifier [0x0x7ff660d7fc
