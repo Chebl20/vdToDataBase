@@ -30,7 +30,6 @@ import chromedriver_autoinstaller
 from dotenv import load_dotenv
 import logging
 import io
-import csv
 from pandas.api.types import is_scalar
 import psycopg2.extras
 from seleniumbase import Driver
@@ -139,7 +138,7 @@ class TratarDados():
                 'Usuário finalização': 'UsuarioFinalizacao',
                 'Código CD': 'CodCD',
                 'Canal de distribuição': 'CanalDistribuicao',
-                'Qtde': 'QtdeItens',
+                'Qtde': 'QtdItens',
                 'Total Tabela': 'ValorTabela',
                 'Total Praticado': 'ValorPraticado',
                 'Total Líquido': 'ValorLiquido'
@@ -190,8 +189,8 @@ class TratarDados():
                     df[col] = pd.to_numeric(df[col], errors='coerce', downcast='float')
 
             # Processar quantidade
-            if 'QtdeItens' in df.columns:
-                df['QtdeItens'] = pd.to_numeric(df['QtdeItens'], errors='coerce').fillna(0).astype(int)
+            if 'QtdItens' in df.columns:
+                df['QtdItens'] = pd.to_numeric(df['QtdItens'], errors='coerce').fillna(0).astype(int)
 
             # Manter apenas colunas mapeadas
             colunas_validas = [col for col in mapeamento_colunas.values() if col in df.columns]
@@ -266,86 +265,122 @@ class Banco():
             print(f"Erro ao criar tabela: {e}")
             raise
         
+
     def inserirItensPedidos(self, itens_pedidos):
         try:
+            # Normaliza para lista de dicts
             if hasattr(itens_pedidos, 'to_dict'):
                 itens_pedidos = itens_pedidos.to_dict('records')
 
-            # Lista com as colunas exatas e na ordem correta para itens_pedidos
             colunas = [
-                'CodigoPedido',
-                'CodigoProduto',
-                'Produto',
-                'DataCaptacao',
-                'CicloCaptacao',
-                'DataFaturamento',
-                'CicloFaturamento',
-                'Pessoa',
-                'NomePessoa',
-                'Papel',
-                'SituacaoFiscal',
-                'NotaFiscal',
-                'MeioCaptacao',
-                'CodPlanoPagamento',
-                'PlanoPagamento',
-                'TipoEntrega',
-                'CodUsuarioCriacao',
-                'UsuarioCriacao',
-                'CodUsuarioFinalizacao',
-                'UsuarioFinalizacao',
-                'CodCD',
-                'CanalDistribuicao',
-                'QtdItens',
-                'ValorTabela',
-                'ValorPraticado',
-                'ValorLiquido'
+                'CodigoPedido','CodigoProduto','Produto','DataCaptacao','CicloCaptacao',
+                'DataFaturamento','CicloFaturamento','Pessoa','NomePessoa','Papel',
+                'SituacaoFiscal','NotaFiscal','MeioCaptacao','CodPlanoPagamento','PlanoPagamento',
+                'TipoEntrega','CodUsuarioCriacao','UsuarioCriacao','CodUsuarioFinalizacao',
+                'UsuarioFinalizacao','CodCD','CanalDistribuicao','QtdItens',
+                'ValorTabela','ValorPraticado','ValorLiquido'
             ]
 
-            # Filtrar itens apenas para pedidos que existem na tabela pedidos
+            if not itens_pedidos:
+                logger.info("Nenhum item recebido para processar.")
+                return
+
+            # Conexão RAW para usar execute_values
             conn = self.engine.raw_connection()
             cursor = conn.cursor()
             try:
-                # Primeiro, obter todos os códigos de pedido existentes
-                cursor.execute("SELECT DISTINCT CodigoPedido FROM pedidos")
+                # 1) Garantimos que só inserimos itens cujos pedidos existem
+                cursor.execute("SELECT DISTINCT codigopedido FROM pedidos")
                 pedidos_existentes = {row[0] for row in cursor.fetchall()}
-                
-                # Filtrar itens para incluir apenas os de pedidos existentes
-                itens_filtrados = [
-                    item for item in itens_pedidos 
-                    if item.get('CodigoPedido') in pedidos_existentes
-                ]
-                
-                if not itens_filtrados:
-                    logger.warning("Nenhum item de pedido com pedido existente encontrado para inserir.")
+                batch = [i for i in itens_pedidos if i.get('CodigoPedido') in pedidos_existentes]
+                if not batch:
+                    logger.warning("Nenhum item com pedido existente encontrado.")
+                    conn.rollback()
                     return
-                    
-                # Preparar valores para inserção
-                values = [tuple(item.get(col, None) for col in colunas) for item in itens_filtrados]
-                
-                # Contar itens que serão ignorados
-                itens_ignorados = len(itens_pedidos) - len(itens_filtrados)
-                if itens_ignorados > 0:
-                    logger.warning(f"{itens_ignorados} itens ignorados pois seus pedidos não foram encontrados na tabela 'pedidos'")
 
-                insert_query = f"""
+                values = [tuple(i.get(c) for c in colunas) for i in batch]
+
+                # 2) Tabela temporária para este batch
+                cursor.execute("""
+                    CREATE TEMP TABLE tmp_itens_pedidos (
+                        CodigoPedido varchar(30),
+                        CodigoProduto varchar(30),
+                        Produto VARCHAR(200),
+                        DataCaptacao DATE,
+                        CicloCaptacao VARCHAR(10),
+                        DataFaturamento DATE,
+                        CicloFaturamento VARCHAR(10),
+                        Pessoa VARCHAR(30),
+                        NomePessoa VARCHAR(255),
+                        Papel VARCHAR(20),
+                        SituacaoFiscal VARCHAR(40),
+                        NotaFiscal VARCHAR(30),
+                        MeioCaptacao VARCHAR(30),
+                        CodPlanoPagamento VARCHAR(30),
+                        PlanoPagamento VARCHAR(255),
+                        TipoEntrega VARCHAR(30),
+                        CodUsuarioCriacao VARCHAR(30),
+                        UsuarioCriacao VARCHAR(255),
+                        CodUsuarioFinalizacao VARCHAR(30),
+                        UsuarioFinalizacao VARCHAR(255),
+                        CodCD VARCHAR(30),
+                        CanalDistribuicao VARCHAR(255),
+                        QtdItens INT,
+                        ValorTabela DECIMAL(10, 2),
+                        ValorPraticado DECIMAL(10, 2),
+                        ValorLiquido DECIMAL(10, 2)
+                    ) ON COMMIT DROP
+                """)
+
+                # 3) Bulk load no staging
+                execute_values(
+                    cursor,
+                    f"INSERT INTO tmp_itens_pedidos ({', '.join(colunas)}) VALUES %s",
+                    values,
+                    page_size=1000
+                )
+
+                # 4) Apagar itens cortados (somente dos pedidos presentes no batch)
+                #    Remove toda linha da tabela principal cujo (Pedido,Produto) não está no staging
+                cursor.execute("""
+                    DELETE FROM itens_pedidos ip
+                    USING (
+                        SELECT DISTINCT CodigoPedido FROM tmp_itens_pedidos
+                    ) p
+                    WHERE ip.CodigoPedido = p.CodigoPedido
+                    AND NOT EXISTS (
+                        SELECT 1
+                        FROM tmp_itens_pedidos t
+                        WHERE t.CodigoPedido = ip.CodigoPedido
+                            AND t.CodigoProduto = ip.CodigoProduto
+                    )
+                """)
+
+                # 5) UPSERT dos válidos
+                set_clause = ', '.join(
+                    f"{c}=EXCLUDED.{c}" for c in colunas if c not in ('CodigoPedido','CodigoProduto')
+                )
+                cursor.execute(f"""
                     INSERT INTO itens_pedidos ({', '.join(colunas)})
-                    VALUES ({', '.join(['%s'] * len(colunas))})
+                    SELECT {', '.join(colunas)} FROM tmp_itens_pedidos
                     ON CONFLICT (CodigoPedido, CodigoProduto)
-                    DO UPDATE SET
-                        {', '.join([f"{col} = EXCLUDED.{col}" for col in colunas if col not in ['CodigoPedido', 'CodigoProduto']])}
-                    """
+                    DO UPDATE SET {set_clause}
+                """)
 
-                psycopg2.extras.execute_batch(cursor, insert_query, values)
                 conn.commit()
-                logger.info(f"Inserção/atualização de {len(itens_filtrados)} itens de pedidos concluída com sucesso")
-                
+                logger.info(f"Sincronização concluída: {len(batch)} itens válidos upsertados; itens cortados removidos.")
             except Exception as e:
                 conn.rollback()
-                logger.error(f"Erro ao inserir/atualizar itens de pedidos: {str(e)}")
+                logger.error(f"Erro na sincronização de itens: {e}")
                 raise
+            finally:
+                cursor.close()
+                conn.close()
+
         except Exception as e:
             logger.error(f"Erro ao inserir/atualizar itens de pedidos: {str(e)}")
             raise
+
     
     def fechar(self):
         """Método para fechar o navegador"""
@@ -540,7 +575,7 @@ class PegarGoogle():
             data_fim.clear()
             
             # Configurando período de busca
-            hoje = datetime.today()
+            hoje = datetime.today() 
             inicio = hoje - timedelta(days=1)
             fim = hoje 
             inicio_formatado = inicio.strftime('%d%m%Y')

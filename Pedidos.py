@@ -799,7 +799,7 @@ if __name__ == "__main__":
     df = tratar.processar_arquivo_pedidos()
     banco.inserirPedidos(df)
     banco.fechar()
-    # rpa.fechar()
+    rpa.fechar()
     
 
 # WITH vendas_filtradas AS (

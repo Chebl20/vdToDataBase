@@ -1,0 +1,7 @@
+2025-09-16 11:07:12,053 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-16 11:07:12,053 - INFO - Execução principal finalizada
+2025-09-16 11:07:12,181 - INFO - Iniciando processamento do arquivo: C:\Users\Administrator\Desktop\download_path_databse\RelatorioItensPorVendedor_5b66c40e-8098-4f4c-8fa7-47af5d9f63c7.xlsx
+2025-09-16 11:07:13,920 - INFO - Arquivo lido com sucesso. Total de linhas: 3108
+2025-09-16 11:07:13,920 - INFO - Colunas renomeadas: ['CodigoPedido', 'CodigoProduto', 'Produto', 'DataCaptacao', 'CicloCaptacao', 'DataFaturamento', 'CicloFaturamento', 'Pessoa', 'NomePessoa', 'Papel', 'SituacaoFiscal', 'NotaFiscal', 'MeioCaptacao', 'CodPlanoPagamento', 'PlanoPagamento', 'TipoEntrega', 'CodUsuarioCriacao', 'UsuarioCriacao', 'CodUsuarioFinalizacao', 'UsuarioFinalizacao', 'CodCD', 'CanalDistribuicao', 'QtdItens', 'ValorTabela', 'ValorPraticado', 'ValorLiquido']
+2025-09-16 11:07:14,054 - INFO - Processamento concluído com sucesso
+2025-09-16 11:07:14,753 - INFO - Sincronização concluída: 3070 itens válidos upsertados; itens cortados removidos.
