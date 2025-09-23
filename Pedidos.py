@@ -443,27 +443,39 @@ class Banco():
             # Filtrar e ordenar os dados conforme as colunas definidas
             values = [tuple(p.get(col, None) for col in colunas) for p in pedidos]
 
+            # Construir cláusula UPDATE que ignora valores NULL
+            update_cols = []
+            for col in colunas:
+                if col != "CodigoPedido":
+                    update_cols.append(f"{col} = COALESCE(EXCLUDED.{col}, {col})")
+
             insert_query = f"""
                 INSERT INTO pedidos ({', '.join(colunas)})
                 VALUES ({', '.join(['%s'] * len(colunas))})
                 ON CONFLICT (CodigoPedido)
                 DO UPDATE SET
-                    {', '.join([f"{col} = EXCLUDED.{col}" for col in colunas if col != 'CodigoPedido'])}
-                """
+                    {', '.join(update_cols)};
+            """
 
             conn = self.engine.raw_connection()
             cursor = conn.cursor()
             try:
-                psycopg2.extras.execute_batch(cursor, insert_query, values)
+                from psycopg2.extras import execute_values
+                execute_values(cursor, insert_query, values, page_size=1000)
                 conn.commit()
-                logger.info("Inserção/atualização de pedidos concluída com sucesso")
+                logger.info(f"Inserção/atualização de {len(values)} pedidos concluída com sucesso")
             except Exception as e:
                 conn.rollback()
                 logger.error(f"Erro ao inserir/atualizar pedidos: {str(e)}")
                 raise
+            finally:
+                cursor.close()
+                conn.close()
+
         except Exception as e:
-            logger.error(f"Erro ao inserir/atualizar pedidos: {str(e)}")
+            logger.error(f"Erro inesperado ao inserir/atualizar pedidos: {str(e)}")
             raise
+
         
     def fechar(self):
         """Método para fechar o navegador"""
