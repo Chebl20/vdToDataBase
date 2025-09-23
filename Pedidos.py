@@ -419,8 +419,9 @@ class Banco():
 
     def inserirPedidos(self, pedidos):
         try:
-            if hasattr(pedidos, 'to_dict'):
-                pedidos = pedidos.to_dict('records')
+            # Caso venha DataFrame, converte para lista de dicionários
+            if hasattr(pedidos, "to_dict"):
+                pedidos = pedidos.to_dict("records")
 
             # Lista com as colunas exatas e na ordem correta
             colunas = [
@@ -440,18 +441,19 @@ class Banco():
                 "LoteSeparacao", "CodCD", "CanalDistribuicao", "DetalheMeioCaptacao"
             ]
 
-            # Filtrar e ordenar os dados conforme as colunas definidas
+            # Extrair valores na ordem correta
             values = [tuple(p.get(col, None) for col in colunas) for p in pedidos]
 
             # Construir cláusula UPDATE que ignora valores NULL
-            update_cols = []
-            for col in colunas:
-                if col != "CodigoPedido":
-                    update_cols.append(f"{col} = COALESCE(EXCLUDED.{col}, {col})")
+            update_cols = [
+                f"{col} = COALESCE(EXCLUDED.{col}, {col})"
+                for col in colunas if col != "CodigoPedido"
+            ]
 
+            # Query com apenas 1 placeholder para execute_values
             insert_query = f"""
                 INSERT INTO pedidos ({', '.join(colunas)})
-                VALUES ({', '.join(['%s'] * len(colunas))})
+                VALUES %s
                 ON CONFLICT (CodigoPedido)
                 DO UPDATE SET
                     {', '.join(update_cols)};
@@ -475,6 +477,7 @@ class Banco():
         except Exception as e:
             logger.error(f"Erro inesperado ao inserir/atualizar pedidos: {str(e)}")
             raise
+
 
         
     def fechar(self):
