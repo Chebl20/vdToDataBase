@@ -64,7 +64,9 @@ def setup_logger():
 logger = setup_logger()
 
 # Carregando variáveis de ambiente do arquivo .env
-load_dotenv()
+dotenv_path = r"C:\Users\Administrator\Desktop\vdToDataBase\.env" 
+# Carregando variáveis de ambiente do arquivo .env
+load_dotenv(dotenv_path=dotenv_path)
 
 ciclos_2024 = [
     {"ciclo":  1, "inicio": "26/12/2023", "fim": "21/01/2024"},
@@ -108,7 +110,7 @@ class TratarDados():
             raise FileNotFoundError("Nenhum arquivo CSV encontrado nas pastas padrão ('downloads' do projeto ou 'Downloads' do usuário).")
 
         self.file = max(list_of_files, key=os.path.getctime)
-
+        
     def processar_arquivo_pedidos(self):
 
         try:

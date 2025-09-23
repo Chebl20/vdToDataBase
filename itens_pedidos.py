@@ -61,8 +61,9 @@ def setup_logger():
 # Inicialização do logger global
 logger = setup_logger()
 
+dotenv_path = r"C:\Users\Administrator\Desktop\vdToDataBase\.env" 
 # Carregando variáveis de ambiente do arquivo .env
-load_dotenv()
+load_dotenv(dotenv_path=dotenv_path)
 
 ciclos_2024 = [
     {"ciclo":  1, "inicio": "26/12/2023", "fim": "21/01/2024"},
