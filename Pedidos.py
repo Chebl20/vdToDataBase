@@ -422,6 +422,10 @@ class Banco():
             if hasattr(pedidos, 'to_dict'):
                 pedidos = pedidos.to_dict('records')
 
+            if not pedidos:
+                logger.warning("Nenhum pedido para processar")
+                return
+
             # Lista com as colunas exatas e na ordem correta
             colunas = [
                 "CodigoPedido", "CodExternoPedido", "SituacaoFiscal", "NotaFiscal", "Pessoa", "NomePessoa", "Papel", "OrdemPedido",
@@ -440,33 +444,107 @@ class Banco():
                 "LoteSeparacao", "CodCD", "CanalDistribuicao", "DetalheMeioCaptacao"
             ]
 
-            # Filtrar e ordenar os dados conforme as colunas definidas
-            values = [tuple(p.get(col, None) for col in colunas) for p in pedidos]
+            # Colunas que NÃO devem ser atualizadas em caso de conflito
+            colunas_imutaveis = {"CodigoPedido", "CodUsuarioCriacao", "UsuarioCriacao", "DataCaptacao"}
+            
+            # Colunas críticas que devem sempre ser atualizadas (mesmo que venham como NULL)
+            colunas_criticas = {"SituacaoComercial", "DetalheSituacaoComercial", "SituacaoFiscal", "SituacaoIntegracaoExterna"}
 
-            # Construir cláusula UPDATE que ignora valores NULL
+            # Validação e limpeza dos dados
+            values = []
+            pedidos_com_problemas = []
+            
+            for i, pedido in enumerate(pedidos):
+                # Verificar se CodigoPedido existe e não é None/vazio
+                codigo_pedido = pedido.get("CodigoPedido")
+                if not codigo_pedido:
+                    pedidos_com_problemas.append(f"Índice {i}: CodigoPedido ausente ou vazio")
+                    continue
+                    
+                # Preparar tupla de valores, garantindo que strings vazias sejam convertidas para None
+                row_values = []
+                for col in colunas:
+                    valor = pedido.get(col)
+                    # Converter strings vazias para None
+                    if valor == "" or valor == "None" or valor == "null":
+                        valor = None
+                    row_values.append(valor)
+                
+                values.append(tuple(row_values))
+
+            if pedidos_com_problemas:
+                logger.warning(f"Pedidos com problemas ignorados: {pedidos_com_problemas}")
+            
+            if not values:
+                logger.warning("Nenhum pedido válido para processar após validação")
+                return
+
+            # Construir cláusula UPDATE com tratamento especial para colunas críticas
             update_cols = []
             for col in colunas:
-                if col != "CodigoPedido":
-                    update_cols.append(f"{col} = COALESCE(EXCLUDED.{col}, {col})")
+                if col not in colunas_imutaveis:
+                    if col in colunas_criticas:
+                        # Para colunas críticas, sempre atualizar (mesmo que seja NULL)
+                        update_cols.append(f"{col} = EXCLUDED.{col}")
+                    else:
+                        # Para outras colunas, só atualizar se o novo valor não for NULL
+                        update_cols.append(f"{col} = COALESCE(EXCLUDED.{col}, pedidos.{col})")
 
-            insert_query = f"""
+            # Template para execute_values (sem WHERE clause complexa)
+            insert_template = f"""
                 INSERT INTO pedidos ({', '.join(colunas)})
-                VALUES ({', '.join(['%s'] * len(colunas))})
+                VALUES %s
                 ON CONFLICT (CodigoPedido)
                 DO UPDATE SET
-                    {', '.join(update_cols)};
+                    {', '.join(update_cols)}
             """
 
             conn = self.engine.raw_connection()
             cursor = conn.cursor()
             try:
                 from psycopg2.extras import execute_values
-                execute_values(cursor, insert_query, values, page_size=1000)
+                
+                # Log para debug
+                logger.info(f"Iniciando inserção/atualização de {len(values)} pedidos")
+                logger.debug(f"Exemplo de dados: {values[0] if values else 'Nenhum dado'}")
+                
+                # Executar em lotes menores para melhor controle
+                batch_size = 500
+                total_processados = 0
+                
+                for i in range(0, len(values), batch_size):
+                    batch = values[i:i + batch_size]
+                    execute_values(
+                        cursor, 
+                        insert_template, 
+                        batch, 
+                        template=None,  # Usar template padrão
+                        page_size=batch_size
+                    )
+                    total_processados += len(batch)
+                    logger.debug(f"Processados {total_processados}/{len(values)} pedidos")
+                
+                # Verificar quantos registros foram realmente afetados
+                rows_affected = cursor.rowcount
                 conn.commit()
-                logger.info(f"Inserção/atualização de {len(values)} pedidos concluída com sucesso")
+                
+                logger.info(f"Inserção/atualização concluída: {len(values)} pedidos processados, {rows_affected} registros afetados no banco")
+                
+                # Log adicional para debug da SituacaoComercial
+                if values:
+                    cursor.execute(
+                        "SELECT CodigoPedido, SituacaoComercial, DetalheSituacaoComercial FROM pedidos WHERE CodigoPedido = %s",
+                        (values[0][0],)
+                    )
+                    
+                    resultado = cursor.fetchone()
+                    if resultado:
+                        logger.debug(f"Verificação pós-inserção - CodigoPedido: {resultado[0]}, SituacaoComercial: {resultado[1]}, DetalheSituacaoComercial: {resultado[2]}")
+                        
             except Exception as e:
                 conn.rollback()
                 logger.error(f"Erro ao inserir/atualizar pedidos: {str(e)}")
+                logger.error(f"Template que causou erro: {insert_template[:500]}...")
                 raise
             finally:
                 cursor.close()
@@ -476,6 +554,56 @@ class Banco():
             logger.error(f"Erro inesperado ao inserir/atualizar pedidos: {str(e)}")
             raise
 
+    def verificarDadosAntes(self, pedidos_sample=5):
+        """Método auxiliar para debug - verificar dados antes da inserção"""
+        try:
+            if hasattr(pedidos_sample, 'to_dict'):
+                dados = pedidos_sample.to_dict('records')[:5]
+            else:
+                dados = pedidos_sample[:5]
+                
+            logger.info("=== VERIFICAÇÃO DE DADOS ANTES DA INSERÇÃO ===")
+            for i, pedido in enumerate(dados):
+                codigo = pedido.get('CodigoPedido', 'N/A')
+                situacao = pedido.get('SituacaoComercial', 'N/A')
+                detalhe = pedido.get('DetalheSituacaoComercial', 'N/A')
+                logger.info(f"Pedido {i+1}: CodigoPedido={codigo}, SituacaoComercial='{situacao}', DetalheSituacaoComercial='{detalhe}'")
+                
+        except Exception as e:
+            logger.error(f"Erro na verificação de dados: {e}")
+
+    def verificarDadosDepois(self, codigos_pedidos):
+        """Método auxiliar para debug - verificar dados após a inserção"""
+        try:
+            if not codigos_pedidos:
+                return
+                
+            conn = self.engine.raw_connection()
+            cursor = conn.cursor()
+            try:
+                # Usar executemany para evitar problemas com placeholders
+                query = """
+                    SELECT CodigoPedido, SituacaoComercial, DetalheSituacaoComercial
+                    FROM pedidos 
+                    WHERE CodigoPedido = %s
+                    ORDER BY CodigoPedido
+                """
+                
+                logger.info("=== VERIFICAÇÃO DE DADOS APÓS INSERÇÃO ===")
+                for codigo in codigos_pedidos[:5]:  # Limitar a 5 para não spam no log
+                    cursor.execute(query, (codigo,))
+                    resultado = cursor.fetchone()
+                    if resultado:
+                        logger.info(f"CodigoPedido={resultado[0]}, SituacaoComercial='{resultado[1]}', DetalheSituacaoComercial='{resultado[2]}'")
+                    else:
+                        logger.warning(f"Pedido {codigo} não encontrado no banco")
+                    
+            finally:
+                cursor.close()
+                conn.close()
+                
+        except Exception as e:
+            logger.error(f"Erro na verificação pós-inserção: {e}")
         
     def fechar(self):
         """Método para fechar o navegador"""
@@ -814,7 +942,7 @@ if __name__ == "__main__":
     banco.inserirPedidos(df)
     banco.fechar()
     rpa.fechar()
-    
+
 
 # WITH vendas_filtradas AS (
 #     SELECT *
