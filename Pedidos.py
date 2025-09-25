@@ -36,6 +36,7 @@ import csv
 from pandas.api.types import is_scalar
 import psycopg2.extras
 from seleniumbase import Driver
+from psycopg2.extras import execute_values
 
 # Configuração do sistema de logging
 
@@ -450,6 +451,8 @@ class Banco():
             # Colunas críticas que devem sempre ser atualizadas (mesmo que venham como NULL)
             colunas_criticas = {"SituacaoComercial", "DetalheSituacaoComercial", "SituacaoFiscal", "SituacaoIntegracaoExterna"}
 
+            logger.info(f"=== PROCESSAMENTO INICIADO - {len(pedidos)} pedidos ===")
+            
             # Validação e limpeza dos dados
             values = []
             pedidos_com_problemas = []
@@ -465,15 +468,19 @@ class Banco():
                 row_values = []
                 for col in colunas:
                     valor = pedido.get(col)
-                    # Converter strings vazias para None
+                    
+                    # Converter strings vazias para None, MAS manter valores válidos
                     if valor == "" or valor == "None" or valor == "null":
                         valor = None
+                    elif isinstance(valor, str) and valor.strip() == "":
+                        valor = None
+                        
                     row_values.append(valor)
                 
                 values.append(tuple(row_values))
 
             if pedidos_com_problemas:
-                logger.warning(f"Pedidos com problemas ignorados: {pedidos_com_problemas}")
+                logger.warning(f"Pedidos com problemas ignorados: {len(pedidos_com_problemas)} de {len(pedidos)}")
             
             if not values:
                 logger.warning("Nenhum pedido válido para processar após validação")
@@ -490,7 +497,7 @@ class Banco():
                         # Para outras colunas, só atualizar se o novo valor não for NULL
                         update_cols.append(f"{col} = COALESCE(EXCLUDED.{col}, pedidos.{col})")
 
-            # Template para execute_values (sem WHERE clause complexa)
+            # Template para execute_values
             insert_template = f"""
                 INSERT INTO pedidos ({', '.join(colunas)})
                 VALUES %s
@@ -499,60 +506,268 @@ class Banco():
                     {', '.join(update_cols)}
             """
 
-            conn = self.engine.raw_connection()
-            cursor = conn.cursor()
-            try:
-                from psycopg2.extras import execute_values
-                
-                # Log para debug
-                logger.info(f"Iniciando inserção/atualização de {len(values)} pedidos")
-                logger.debug(f"Exemplo de dados: {values[0] if values else 'Nenhum dado'}")
-                
-                # Executar em lotes menores para melhor controle
-                batch_size = 500
-                total_processados = 0
-                
-                for i in range(0, len(values), batch_size):
-                    batch = values[i:i + batch_size]
-                    execute_values(
-                        cursor, 
-                        insert_template, 
-                        batch, 
-                        template=None,  # Usar template padrão
-                        page_size=batch_size
-                    )
-                    total_processados += len(batch)
-                    logger.debug(f"Processados {total_processados}/{len(values)} pedidos")
-                
-                # Verificar quantos registros foram realmente afetados
-                rows_affected = cursor.rowcount
-                conn.commit()
-                
-                logger.info(f"Inserção/atualização concluída: {len(values)} pedidos processados, {rows_affected} registros afetados no banco")
-                
-                # Log adicional para debug da SituacaoComercial
-                if values:
-                    cursor.execute(
-                        "SELECT CodigoPedido, SituacaoComercial, DetalheSituacaoComercial FROM pedidos WHERE CodigoPedido = %s",
-                        (values[0][0],)
-                    )
-                    
-                    resultado = cursor.fetchone()
-                    if resultado:
-                        logger.debug(f"Verificação pós-inserção - CodigoPedido: {resultado[0]}, SituacaoComercial: {resultado[1]}, DetalheSituacaoComercial: {resultado[2]}")
-                        
-            except Exception as e:
-                conn.rollback()
-                logger.error(f"Erro ao inserir/atualizar pedidos: {str(e)}")
-                logger.error(f"Template que causou erro: {insert_template[:500]}...")
-                raise
-            finally:
-                cursor.close()
-                conn.close()
+            # PROCESSAMENTO EM LOTES MENORES COM CONTROLE DE TRANSAÇÃO
+            return self._processar_em_lotes(values, insert_template, colunas)
 
         except Exception as e:
             logger.error(f"Erro inesperado ao inserir/atualizar pedidos: {str(e)}")
             raise
+
+    def _processar_em_lotes(self, values, insert_template, colunas):
+        """Processa os dados em lotes menores com controle individual de transações"""
+        from psycopg2.extras import execute_values
+        import time
+        
+        # Configurações de lote otimizadas
+        BATCH_SIZE = 100  # Lotes menores para melhor controle
+        COMMIT_EVERY = 5   # Commit a cada 5 lotes
+        SLEEP_TIME = 0.1   # Pequena pausa entre lotes para não sobrecarregar
+        
+        total_values = len(values)
+        total_processados = 0
+        total_atualizados = 0
+        lotes_processados = 0
+        erros = []
+        
+        logger.info(f"Iniciando processamento em lotes: {total_values} registros, lotes de {BATCH_SIZE}")
+        
+        conn = self.engine.raw_connection()
+        
+        # Configurações de conexão otimizadas
+        conn.autocommit = False
+        cursor = conn.cursor()
+        
+        try:
+            # Configurações do PostgreSQL para otimizar performance (apenas as que podem ser alteradas em sessão)
+            try:
+                cursor.execute("SET synchronous_commit = OFF")
+                cursor.execute("SET commit_delay = 0")
+                cursor.execute("SET work_mem = '256MB'")  # Aumenta memória para operações
+            except Exception as e:
+                logger.warning(f"Algumas otimizações não puderam ser aplicadas: {e}")
+            
+            start_time = time.time()
+            
+            for i in range(0, total_values, BATCH_SIZE):
+                try:
+                    batch = values[i:i + BATCH_SIZE]
+                    batch_start = time.time()
+                    
+                    # Processar lote
+                    execute_values(
+                        cursor, 
+                        insert_template, 
+                        batch, 
+                        template=None,
+                        page_size=BATCH_SIZE
+                    )
+                    
+                    rows_affected_batch = cursor.rowcount
+                    total_atualizados += rows_affected_batch
+                    total_processados += len(batch)
+                    lotes_processados += 1
+                    
+                    batch_time = time.time() - batch_start
+                    
+                    # Commit a cada X lotes ou no final
+                    if lotes_processados % COMMIT_EVERY == 0 or i + BATCH_SIZE >= total_values:
+                        conn.commit()
+                        logger.info(f"Lote {lotes_processados}: {len(batch)} registros, {rows_affected_batch} afetados, tempo: {batch_time:.2f}s")
+                    
+                    # Log detalhado a cada 10 lotes
+                    if lotes_processados % 10 == 0:
+                        progress = (total_processados / total_values) * 100
+                        elapsed = time.time() - start_time
+                        estimated_total = elapsed * (total_values / total_processados)
+                        eta = estimated_total - elapsed
+                        
+                        logger.info(f"Progresso: {progress:.1f}% ({total_processados}/{total_values}) "
+                                f"- Tempo decorrido: {elapsed:.1f}s - ETA: {eta:.1f}s")
+                    
+                    # Verificar alguns registros do lote para debug
+                    if lotes_processados <= 3:  # Só nos primeiros 3 lotes
+                        self._verificar_lote_debug(cursor, batch, colunas, lotes_processados)
+                    
+                    # Pequena pausa para não sobrecarregar o banco
+                    if SLEEP_TIME > 0:
+                        time.sleep(SLEEP_TIME)
+                        
+                except Exception as e:
+                    # Log do erro mas continua processando
+                    erro_msg = f"Erro no lote {lotes_processados + 1} (registros {i}-{i+len(batch)}): {str(e)}"
+                    logger.error(erro_msg)
+                    erros.append(erro_msg)
+                    
+                    # Rollback apenas este lote e continua
+                    conn.rollback()
+                    
+                    # Tentar processar registros individualmente neste lote com erro
+                    sucessos_individuais = self._processar_individualmente(cursor, conn, batch, insert_template, i)
+                    total_processados += sucessos_individuais
+                    
+            # Commit final se necessário
+            if not conn.closed:
+                conn.commit()
+            
+            total_time = time.time() - start_time
+            
+            logger.info(f"=== PROCESSAMENTO CONCLUÍDO ===")
+            logger.info(f"Total de registros: {total_values}")
+            logger.info(f"Processados com sucesso: {total_processados}")
+            logger.info(f"Registros afetados no banco: {total_atualizados}")
+            logger.info(f"Lotes processados: {lotes_processados}")
+            logger.info(f"Tempo total: {total_time:.2f} segundos")
+            logger.info(f"Média: {total_processados/total_time:.1f} registros/segundo")
+            
+            if erros:
+                logger.warning(f"Erros encontrados: {len(erros)}")
+                for erro in erros[:5]:  # Log apenas os primeiros 5 erros
+                    logger.warning(f"  {erro}")
+            
+            return {
+                'total_valores': total_values,
+                'processados': total_processados, 
+                'afetados': total_atualizados,
+                'tempo': total_time,
+                'erros': len(erros)
+            }
+            
+        except Exception as e:
+            conn.rollback()
+            logger.error(f"Erro crítico no processamento em lotes: {str(e)}")
+            raise
+        finally:
+            cursor.close()
+            conn.close()
+
+    def _processar_individualmente(self, cursor, conn, batch, insert_template, batch_start_index):
+        """Processa registros individualmente quando um lote falha"""
+        sucessos = 0
+        
+        logger.info(f"Processando {len(batch)} registros individualmente devido a erro no lote...")
+        
+        # ✅ CORRIGIR: Criar template correto para INSERT individual
+        placeholders = ', '.join(['%s'] * len(batch[0])) if batch else ''
+        
+        # Extrair a parte base do INSERT (remover o VALUES %s do execute_values)
+        base_insert = insert_template.split('VALUES %s')[0] + f"VALUES ({placeholders})"
+        
+        # Manter a cláusula ON CONFLICT se existir
+        if 'ON CONFLICT' in insert_template:
+            conflict_part = insert_template.split('VALUES %s')[1]
+            single_template = base_insert + conflict_part
+        else:
+            single_template = base_insert
+        
+        for j, record in enumerate(batch):
+            try:
+                # ✅ Agora sim, executar com o template correto
+                cursor.execute(single_template, record)
+                conn.commit()
+                sucessos += 1
+                
+            except Exception as e:
+                logger.error(f"Erro no registro individual {batch_start_index + j} (CodigoPedido: {record[0]}): {str(e)}")
+                conn.rollback()
+        
+        logger.info(f"Processamento individual: {sucessos}/{len(batch)} sucessos")
+        return sucessos
+
+    def _verificar_lote_debug(self, cursor, batch, colunas, lote_num):
+        """Verifica alguns registros do lote para debug"""
+        try:
+            if not batch:
+                return
+                
+            # Pegar alguns códigos do lote para verificar
+            codigos_para_verificar = [record[0] for record in batch[:3]]  # Primeiros 3
+            situacao_index = colunas.index("SituacaoComercial")
+            
+            logger.info(f"=== DEBUG LOTE {lote_num} ===")
+            
+            for i, codigo in enumerate(codigos_para_verificar):
+                # Situação enviada
+                situacao_enviada = batch[i][situacao_index]
+                
+                # Situação no banco
+                cursor.execute(
+                    "SELECT SituacaoComercial FROM pedidos WHERE CodigoPedido = %s",
+                    (codigo,)
+                )
+                resultado = cursor.fetchone()
+                situacao_banco = resultado[0] if resultado else "NÃO ENCONTRADO"
+                
+                status = "✓ OK" if situacao_enviada == situacao_banco else "✗ DIFERENTE"
+                logger.info(f"  {codigo}: Enviado='{situacao_enviada}' | Banco='{situacao_banco}' | {status}")
+                
+        except Exception as e:
+            logger.warning(f"Erro na verificação de debug do lote {lote_num}: {e}")
+
+    def verificar_pedidos_nao_atualizados(self, codigos_esperados):
+        """Verifica quais pedidos não foram atualizados corretamente"""
+        try:
+            conn = self.engine.raw_connection()
+            cursor = conn.cursor()
+            
+            problemas = []
+            
+            for codigo in codigos_esperados[:10]:  # Verificar apenas os primeiros 10
+                cursor.execute(
+                    "SELECT CodigoPedido, SituacaoComercial, DetalheSituacaoComercial FROM pedidos WHERE CodigoPedido = %s",
+                    (codigo,)
+                )
+                resultado = cursor.fetchone()
+                
+                if not resultado:
+                    problemas.append(f"{codigo}: NÃO ENCONTRADO")
+                elif not resultado[1]:  # SituacaoComercial é NULL
+                    problemas.append(f"{codigo}: SituacaoComercial é NULL")
+                    
+            if problemas:
+                logger.warning("Pedidos com problemas detectados:")
+                for problema in problemas:
+                    logger.warning(f"  {problema}")
+            else:
+                logger.info("Verificação OK - todos os pedidos verificados estão corretos")
+                
+            cursor.close()
+            conn.close()
+            
+        except Exception as e:
+            logger.error(f"Erro na verificação de pedidos não atualizados: {e}")
+
+    def verificarConsistencia(self, codigo_pedido):
+        """Método para verificar se um pedido específico está correto no banco"""
+        try:
+            conn = self.engine.raw_connection()
+            cursor = conn.cursor()
+            try:
+                cursor.execute("""
+                    SELECT CodigoPedido, SituacaoComercial, DetalheSituacaoComercial,
+                        SituacaoFiscal, SituacaoIntegracaoExterna
+                    FROM pedidos 
+                    WHERE CodigoPedido = %s
+                """, (codigo_pedido,))
+                
+                resultado = cursor.fetchone()
+                if resultado:
+                    logger.info(f"=== DADOS NO BANCO PARA PEDIDO {codigo_pedido} ===")
+                    logger.info(f"  SituacaoComercial: '{resultado[1]}'")
+                    logger.info(f"  DetalheSituacaoComercial: '{resultado[2]}'")
+                    logger.info(f"  SituacaoFiscal: '{resultado[3]}'")
+                    logger.info(f"  SituacaoIntegracaoExterna: '{resultado[4]}'")
+                    return resultado
+                else:
+                    logger.error(f"Pedido {codigo_pedido} não encontrado no banco!")
+                    return None
+                    
+            finally:
+                cursor.close()
+                conn.close()
+                
+        except Exception as e:
+            logger.error(f"Erro na verificação de consistência: {e}")
+            return None
 
     def verificarDadosAntes(self, pedidos_sample=5):
         """Método auxiliar para debug - verificar dados antes da inserção"""
@@ -929,11 +1144,11 @@ class PegarGoogle():
 if __name__ == "__main__":
     logger.info("Iniciando execução principal do script Pedidos.py")
     
-    rpa = PegarGoogle()
-    while rpa.entrar():
-        logger.info("Chamando método pegarPedidos()")
-        if rpa.pegarPedidos():
-            break
+    # rpa = PegarGoogle()
+    # while rpa.entrar():
+    #     logger.info("Chamando método pegarPedidos()")
+    #     if rpa.pegarPedidos():
+    #         break
     
     logger.info("Execução principal finalizada")
     banco = Banco()
@@ -942,7 +1157,7 @@ if __name__ == "__main__":
     df = tratar.processar_arquivo_pedidos()
     banco.inserirPedidos(df)
     banco.fechar()
-    rpa.fechar()
+    # rpa.fechar()
 
 
 # WITH vendas_filtradas AS (
