@@ -307,7 +307,10 @@ class TratarDados():
                     df[col] = df[col].map(lambda x: True if str(x).strip().lower() in ['sim', 'true', '1'] else False)
 
             logger.info("Processamento e conversão de dados concluídos com sucesso")
-            return df
+            
+            df_cancelados = df[df['SituacaoComercial'] == 'Cancelado']
+            df_sem_cancelados = df[df['SituacaoComercial'] != 'Cancelado']            
+            return df_sem_cancelados, df_cancelados
 
         except Exception as e:
             logger.error(f"Erro ao processar arquivo: {str(e)}")
@@ -735,6 +738,274 @@ class Banco():
             
         except Exception as e:
             logger.error(f"Erro na verificação de pedidos não atualizados: {e}")
+            
+    def inserirPedidosCancelados(self, pedidos_cancelados):
+        """
+        Processa pedidos cancelados - atualiza apenas a situação comercial
+        para marcar como cancelado no banco de dados
+        """
+        try:
+            if hasattr(pedidos_cancelados, 'to_dict'):
+                pedidos_cancelados = pedidos_cancelados.to_dict('records')
+
+            if not pedidos_cancelados:
+                logger.warning("Nenhum pedido cancelado para processar")
+                return
+
+            logger.info(f"=== PROCESSAMENTO DE CANCELADOS INICIADO - {len(pedidos_cancelados)} pedidos ===")
+            
+            # Colunas mínimas necessárias para cancelamento
+            colunas_necessarias = ["CodigoPedido", "SituacaoComercial", "DetalheSituacaoComercial", 
+                                "SituacaoIntegracaoExterna", "DetalheSituacaoIntExterna"]
+            
+            # Validar e preparar dados
+            values = []
+            pedidos_invalidos = []
+            
+            for i, pedido in enumerate(pedidos_cancelados):
+                codigo_pedido = pedido.get("CodigoPedido")
+                
+                # Validação rigorosa para cancelados
+                if not codigo_pedido:
+                    pedidos_invalidos.append(f"Índice {i}: CodigoPedido ausente")
+                    continue
+                    
+                # Garantir que as situações estão preenchidas para cancelamento
+                situacao_comercial = pedido.get("SituacaoComercial")
+                detalhe_situacao = pedido.get("DetalheSituacaoComercial")
+                
+                if not situacao_comercial:
+                    logger.warning(f"Pedido {codigo_pedido}: SituacaoComercial ausente, usando 'Cancelado'")
+                    situacao_comercial = "Cancelado"
+                
+                if not detalhe_situacao:
+                    logger.warning(f"Pedido {codigo_pedido}: DetalheSituacaoComercial ausente, usando 'Cancelado'")
+                    detalhe_situacao = "Cancelado"
+                
+                # Preparar valores para UPDATE
+                valores_cancelamento = (
+                    situacao_comercial,                    # SituacaoComercial
+                    detalhe_situacao,                      # DetalheSituacaoComercial
+                    pedido.get("SituacaoIntegracaoExterna"), 
+                    pedido.get("DetalheSituacaoIntExterna"),
+                    codigo_pedido                          # CodigoPedido (WHERE)
+                )
+                
+                values.append(valores_cancelamento)
+
+            if pedidos_invalidos:
+                logger.warning(f"Pedidos cancelados inválidos ignorados: {len(pedidos_invalidos)}")
+                for invalido in pedidos_invalidos[:5]:
+                    logger.warning(f"  {invalido}")
+
+            if not values:
+                logger.warning("Nenhum pedido cancelado válido para processar")
+                return
+
+            # Query específica para cancelamentos - apenas UPDATE
+            update_query = """
+                UPDATE pedidos 
+                SET SituacaoComercial = %s,
+                    DetalheSituacaoComercial = %s,
+                    SituacaoIntegracaoExterna = %s,
+                    DetalheSituacaoIntExterna = %s,
+                    DataAtualizacao = NOW()
+                WHERE CodigoPedido = %s
+            """
+
+            return self._processar_cancelados_em_lotes(values, update_query)
+
+        except Exception as e:
+            logger.error(f"Erro inesperado ao processar pedidos cancelados: {str(e)}")
+            raise
+
+    def _processar_cancelados_em_lotes(self, values, update_query):
+        """Processa cancelamentos em lotes com otimizações específicas"""
+        import time
+        from psycopg2.extras import execute_batch  # Mais eficiente para UPDATEs
+        
+        BATCH_SIZE = 200  # Lotes maiores pois são apenas UPDATEs
+        COMMIT_EVERY = 10
+        SLEEP_TIME = 0.05
+        
+        total_values = len(values)
+        total_processados = 0
+        total_atualizados = 0
+        lotes_processados = 0
+        erros = []
+        
+        logger.info(f"Processando {total_values} cancelamentos em lotes de {BATCH_SIZE}")
+        
+        conn = self.engine.raw_connection()
+        conn.autocommit = False
+        cursor = conn.cursor()
+        
+        try:
+            start_time = time.time()
+            
+            for i in range(0, total_values, BATCH_SIZE):
+                try:
+                    batch = values[i:i + BATCH_SIZE]
+                    batch_start = time.time()
+                    
+                    # Usar execute_batch que é mais eficiente para UPDATEs
+                    execute_batch(cursor, update_query, batch, page_size=BATCH_SIZE)
+                    
+                    rows_affected_batch = cursor.rowcount
+                    total_atualizados += rows_affected_batch
+                    total_processados += len(batch)
+                    lotes_processados += 1
+                    
+                    batch_time = time.time() - batch_start
+                    
+                    # Commit regular
+                    if lotes_processados % COMMIT_EVERY == 0 or i + BATCH_SIZE >= total_values:
+                        conn.commit()
+                        logger.info(f"Lote cancelados {lotes_processados}: {len(batch)} registros, {rows_affected_batch} linhas afetadas, tempo: {batch_time:.2f}s")
+                    
+                    # Log de progresso
+                    if lotes_processados % 5 == 0:
+                        progresso = (total_processados / total_values) * 100
+                        logger.info(f"Progresso cancelados: {progresso:.1f}% ({total_processados}/{total_values})")
+                    
+                    # Pequena pausa
+                    if SLEEP_TIME > 0:
+                        time.sleep(SLEEP_TIME)
+                        
+                except Exception as e:
+                    erro_msg = f"Erro no lote cancelados {lotes_processados + 1} (registros {i}-{i+len(batch)}): {str(e)}"
+                    logger.error(erro_msg)
+                    erros.append(erro_msg)
+                    
+                    conn.rollback()
+                    
+                    # Tentar processar individualmente
+                    sucessos_individuais = self._processar_cancelados_individualmente(cursor, conn, batch, update_query, i)
+                    total_processados += sucessos_individuais
+            
+            # Commit final
+            if not conn.closed:
+                conn.commit()
+            
+            total_time = time.time() - start_time
+            
+            # Estatísticas finais
+            logger.info(f"=== PROCESSAMENTO DE CANCELADOS CONCLUÍDO ===")
+            logger.info(f"Total de pedidos cancelados: {total_values}")
+            logger.info(f"Processados com sucesso: {total_processados}")
+            logger.info(f"Linhas atualizadas no banco: {total_atualizados}")
+            logger.info(f"Eficiência: {total_atualizados/total_values:.1%} de pedidos encontrados e atualizados")
+            logger.info(f"Tempo total: {total_time:.2f} segundos")
+            logger.info(f"Velocidade: {total_processados/total_time:.1f} registros/segundo")
+            
+            if erros:
+                logger.warning(f"Erros encontrados: {len(erros)}")
+                for erro in erros[:3]:
+                    logger.warning(f"  {erro}")
+            
+            return {
+                'total_cancelados': total_values,
+                'processados': total_processados,
+                'atualizados': total_atualizados,
+                'eficiencia': total_atualizados/total_values,
+                'tempo': total_time,
+                'erros': len(erros)
+            }
+            
+        except Exception as e:
+            conn.rollback()
+            logger.error(f"Erro crítico no processamento de cancelados: {str(e)}")
+            raise
+        finally:
+            cursor.close()
+            conn.close()
+
+    def _processar_cancelados_individualmente(self, cursor, conn, batch, update_query, batch_start_index):
+        """Processa cancelamentos individualmente quando um lote falha"""
+        sucessos = 0
+        
+        logger.info(f"Processando {len(batch)} cancelamentos individualmente...")
+        
+        for j, record in enumerate(batch):
+            try:
+                cursor.execute(update_query, record)
+                conn.commit()
+                sucessos += 1
+                
+                # Log a cada 50 registros para não poluir
+                if (j + 1) % 50 == 0:
+                    logger.info(f"  Cancelamentos individuais: {j + 1}/{len(batch)}")
+                    
+            except Exception as e:
+                codigo_pedido = record[4] if len(record) > 4 else "N/A"
+                logger.error(f"Erro no cancelamento individual {batch_start_index + j} (Pedido: {codigo_pedido}): {str(e)}")
+                conn.rollback()
+        
+        logger.info(f"Cancelamentos individuais: {sucessos}/{len(batch)} sucessos")
+        return sucessos
+
+    def verificar_cancelamentos(self, codigos_cancelados):
+        """Verifica se os pedidos cancelados foram atualizados corretamente"""
+        try:
+            if not codigos_cancelados:
+                logger.info("Nenhum código para verificar")
+                return
+                
+            conn = self.engine.raw_connection()
+            cursor = conn.cursor()
+            
+            # Converter para tuple para a query IN
+            codigos_tuple = tuple(codigos_cancelados[:100])  # Limitar a 100 para não sobrecarregar
+            
+            cursor.execute("""
+                SELECT CodigoPedido, SituacaoComercial, DetalheSituacaoComercial
+                FROM pedidos 
+                WHERE CodigoPedido IN %s
+            """, (codigos_tuple,))
+            
+            resultados = cursor.fetchall()
+            
+            cancelados_corretos = []
+            cancelados_problema = []
+            nao_encontrados = set(codigos_tuple)
+            
+            for codigo, situacao, detalhe in resultados:
+                nao_encontrados.discard(codigo)
+                
+                if situacao and "cancel" in situacao.lower():
+                    cancelados_corretos.append(codigo)
+                else:
+                    cancelados_problema.append(f"{codigo}: Situação='{situacao}', Detalhe='{detalhe}'")
+            
+            logger.info("=== VERIFICAÇÃO DE CANCELAMENTOS ===")
+            logger.info(f"Total verificados: {len(resultados)}")
+            logger.info(f"Cancelados corretamente: {len(cancelados_corretos)}")
+            logger.info(f"Com problemas: {len(cancelados_problema)}")
+            logger.info(f"Não encontrados: {len(nao_encontrados)}")
+            
+            if cancelados_problema:
+                logger.warning("Pedidos com problemas na atualização:")
+                for problema in cancelados_problema[:10]:
+                    logger.warning(f"  {problema}")
+            
+            if nao_encontrados:
+                logger.warning("Pedidos não encontrados no banco:")
+                for codigo in list(nao_encontrados)[:10]:
+                    logger.warning(f"  {codigo}")
+            
+            cursor.close()
+            conn.close()
+            
+            return {
+                'verificados': len(resultados),
+                'corretos': len(cancelados_corretos),
+                'problemas': len(cancelados_problema),
+                'nao_encontrados': len(nao_encontrados)
+            }
+            
+        except Exception as e:
+            logger.error(f"Erro na verificação de cancelamentos: {e}")
+            return None
 
     def verificarConsistencia(self, codigo_pedido):
         """Método para verificar se um pedido específico está correto no banco"""
@@ -1154,9 +1425,29 @@ if __name__ == "__main__":
     banco = Banco()
     banco.criar_tabela()
     tratar = TratarDados()
-    df = tratar.processar_arquivo_pedidos()
-    banco.inserirPedidos(df)
+    # Antes de processar, separe os cancelados
+    df_sem_cancelados, df_cancelados = tratar.processar_arquivo_pedidos()
+
+    # Primeiro processa os cancelados (são menos dados e mais críticos)
+    if df_cancelados is not None and len(df_cancelados) > 0:
+        logger.info(f"Processando {len(df_cancelados)} pedidos cancelados")
+        resultado_cancelados = banco.inserirPedidosCancelados(df_cancelados)
+        
+        # Verificação opcional
+        codigos_cancelados = df_cancelados['CodigoPedido'].tolist()
+        banco.verificar_cancelamentos(codigos_cancelados[:10])  # Verifica apenas 10
+    else:
+        logger.info("Nenhum pedido cancelado para processar")
+
+    # Depois processa os normais
+    if df_sem_cancelados is not None and len(df_sem_cancelados) > 0:
+        logger.info(f"Processando {len(df_sem_cancelados)} pedidos normais")
+        banco.inserirPedidos(df_sem_cancelados)
+    else:
+        logger.info("Nenhum pedido normal para processar")
+
     banco.fechar()
+
     # rpa.fechar()
 
 
