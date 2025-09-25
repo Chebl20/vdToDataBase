@@ -786,8 +786,6 @@ class Banco():
                 valores_cancelamento = (
                     situacao_comercial,                    # SituacaoComercial
                     detalhe_situacao,                      # DetalheSituacaoComercial
-                    pedido.get("SituacaoIntegracaoExterna"), 
-                    pedido.get("DetalheSituacaoIntExterna"),
                     codigo_pedido                          # CodigoPedido (WHERE)
                 )
                 
@@ -806,10 +804,7 @@ class Banco():
             update_query = """
                 UPDATE pedidos 
                 SET SituacaoComercial = %s,
-                    DetalheSituacaoComercial = %s,
-                    SituacaoIntegracaoExterna = %s,
-                    DetalheSituacaoIntExterna = %s,
-                    DataAtualizacao = NOW()
+                    DetalheSituacaoComercial = %s
                 WHERE CodigoPedido = %s
             """
 
@@ -1439,12 +1434,12 @@ if __name__ == "__main__":
     else:
         logger.info("Nenhum pedido cancelado para processar")
 
-    # Depois processa os normais
-    if df_sem_cancelados is not None and len(df_sem_cancelados) > 0:
-        logger.info(f"Processando {len(df_sem_cancelados)} pedidos normais")
-        banco.inserirPedidos(df_sem_cancelados)
-    else:
-        logger.info("Nenhum pedido normal para processar")
+    # # Depois processa os normais
+    # if df_sem_cancelados is not None and len(df_sem_cancelados) > 0:
+    #     logger.info(f"Processando {len(df_sem_cancelados)} pedidos normais")
+    #     # banco.inserirPedidos(df_sem_cancelados)
+    # else:
+    #     logger.info("Nenhum pedido normal para processar")
 
     banco.fechar()
 
