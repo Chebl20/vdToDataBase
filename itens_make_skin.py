@@ -283,7 +283,7 @@ class Banco():
             values = [tuple(item.get(col, None) for col in colunas) for item in itens_pedidos]
 
             insert_query = f"""
-                INSERT INTO produtos_make_skin({', '.join(colunas)})
+                INSERT INTO marcas_produto({', '.join(colunas)})
                 VALUES ({', '.join(['%s'] * len(colunas))})
                 ON CONFLICT (CodigoProduto)
                 DO UPDATE SET
@@ -649,6 +649,7 @@ if __name__ == "__main__":
     if not arquivos:
         raise FileNotFoundError("Nenhum arquivo XLSX encontrado para leitura da base em locais padrão.")
     arquivo_recente = max(arquivos, key=os.path.getctime)
+    arquivo_recente = r"C:\Users\Grupo Garbo\Downloads\itens_marcas.xlsx"
     base = pd.read_excel(arquivo_recente)
     print(base.head())
     # logger.info("Execução principal finalizada")
