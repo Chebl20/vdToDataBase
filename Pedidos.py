@@ -39,7 +39,6 @@ from seleniumbase import Driver
 from psycopg2.extras import execute_values
 
 # Configuração do sistema de logging
-
 def setup_logger():
     # Cria pasta de logs se não existir
     log_dir = "logs"
@@ -55,8 +54,8 @@ def setup_logger():
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler()
+            logging.FileHandler(log_file, encoding="utf-8"),  # <-- garante UTF-8 no arquivo
+            logging.StreamHandler()  # console (pode dar erro se terminal não suportar ✓)
         ]
     )
     return logging.getLogger()
@@ -1410,11 +1409,11 @@ class PegarGoogle():
 if __name__ == "__main__":
     logger.info("Iniciando execução principal do script Pedidos.py")
     
-    # rpa = PegarGoogle()
-    # while rpa.entrar():
-    #     logger.info("Chamando método pegarPedidos()")
-    #     if rpa.pegarPedidos():
-    #         break
+    rpa = PegarGoogle()
+    while rpa.entrar():
+        logger.info("Chamando método pegarPedidos()")
+        if rpa.pegarPedidos():
+            break
     
     logger.info("Execução principal finalizada")
     banco = Banco()
@@ -1434,16 +1433,16 @@ if __name__ == "__main__":
     else:
         logger.info("Nenhum pedido cancelado para processar")
 
-    # # Depois processa os normais
-    # if df_sem_cancelados is not None and len(df_sem_cancelados) > 0:
-    #     logger.info(f"Processando {len(df_sem_cancelados)} pedidos normais")
-    #     # banco.inserirPedidos(df_sem_cancelados)
-    # else:
-    #     logger.info("Nenhum pedido normal para processar")
+    # Depois processa os normais
+    if df_sem_cancelados is not None and len(df_sem_cancelados) > 0:
+        logger.info(f"Processando {len(df_sem_cancelados)} pedidos normais")
+        banco.inserirPedidos(df_sem_cancelados)
+    else:
+        logger.info("Nenhum pedido normal para processar")
 
     banco.fechar()
 
-    # rpa.fechar()
+    rpa.fechar()
 
 
 # WITH vendas_filtradas AS (
