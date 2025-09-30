@@ -1,0 +1,16 @@
+2025-09-25 13:13:52,582 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-25 13:13:52,582 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-25 13:13:52,582 - INFO - Configurando opções do Chrome
+2025-09-25 13:13:52,583 - INFO - Iniciando Chrome
+2025-09-25 13:13:58,463 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-25 13:13:58,640 - INFO - Setup do Selenium concluído
+2025-09-25 13:14:01,473 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-25 13:14:16,379 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-25 13:14:18,795 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-25 13:14:18,902 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-25 13:14:21,392 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-25 13:14:21,583 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-25 13:14:31,585 - INFO - Chamando método pegarItensVendas()
+2025-09-25 13:14:49,013 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-25 13:15:03,793 - WARNING - Tentativa 1 falhou, tentando novamente em 1 segundo... Erro: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnec

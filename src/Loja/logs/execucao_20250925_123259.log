@@ -1,0 +1,124 @@
+2025-09-25 12:32:59,888 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-25 12:32:59,889 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-25 12:32:59,889 - INFO - Configurando opções do Chrome
+2025-09-25 12:32:59,890 - INFO - Iniciando Chrome
+2025-09-25 12:33:05,678 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-25 12:33:05,795 - INFO - Setup do Selenium concluído
+2025-09-25 12:33:14,818 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-25 12:33:14,850 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-25 12:33:16,994 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-25 12:33:17,032 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-25 12:33:19,540 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-25 12:33:19,773 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-25 12:33:29,774 - INFO - Chamando método pegarItensVendas()
+2025-09-25 12:33:29,774 - INFO - Iniciando processo de busca e exportação de pedidos
+2025-09-25 12:33:29,774 - INFO - Navegando para o menu de pedidos
+2025-09-25 12:33:29,774 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-25 12:33:29,820 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-6"]/div
+2025-09-25 12:33:29,821 - INFO - Expandindo submenu
+2025-09-25 12:33:29,821 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-602"]
+2025-09-25 12:33:30,392 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-602"]
+2025-09-25 12:33:30,393 - INFO - Acessando consulta de pedidos
+2025-09-25 12:33:30,393 - INFO - Tentando clicar no elemento: //*[@id="sidemenu-item-144"]
+2025-09-25 12:33:30,982 - INFO - Clique bem-sucedido no elemento: //*[@id="sidemenu-item-144"]
+2025-09-25 12:33:33,983 - INFO - Voltando para o conteúdo principal
+2025-09-25 12:33:39,335 - INFO - Encontrados 3 iframes
+2025-09-25 12:33:39,335 - INFO - Tentando iframe 0
+2025-09-25 12:33:39,377 - INFO - Elemento encontrado no iframe 0
+2025-09-25 12:33:39,378 - INFO - Preenchendo datas: 24092025 a 25092025
+2025-09-25 12:33:39,379 - INFO - Aguardando presença do elemento: //*[@id="periodoInicial"]
+2025-09-25 12:33:39,391 - INFO - Elemento localizado com sucesso: //*[@id="periodoInicial"]
+2025-09-25 12:33:39,391 - INFO - Aguardando presença do elemento: //*[@id="periodoFinal"]
+2025-09-25 12:33:39,406 - INFO - Elemento localizado com sucesso: //*[@id="periodoFinal"]
+2025-09-25 12:33:39,987 - INFO - Preenchendo datas: Início=24092025, Fim=25092025
+2025-09-25 12:33:44,066 - INFO - Tentando clicar no elemento: //*[@id="select2-quebra-container"]
+2025-09-25 12:33:44,101 - INFO - Clique bem-sucedido no elemento: //*[@id="select2-quebra-container"]
+2025-09-25 12:33:47,348 - INFO - Clicando no segundo elemento
+2025-09-25 12:33:47,348 - INFO - Tentando clicar no elemento: //*[@id="formulario"]/div/div/div[2]/div[2]/div/div/div[3]/div/label
+2025-09-25 12:35:47,520 - WARNING - Tentativa 1 falhou, tentando novamente em 1 segundo... Erro: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6b726fc95+79861]
+	GetHandleVerifier [0x0x7ff6b726fc
+2025-09-25 12:37:36,429 - WARNING - Tentativa 2 falhou, tentando novamente em 1 segundo... Erro: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnec
+2025-09-25 12:37:37,432 - ERROR - Erro ao clicar no elemento //*[@id="formulario"]/div/div/div[2]/div[2]/div/div/div[3]/div/label: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6b726fc95+79861]
+	GetHandleVerifier [0x0x7ff6b726fcf0+79952]
+	(No symbol) [0x0x7ff6b6fec8fc]
+	(No symbol) [0x0x7ff6b703438d]
+	(No symbol) [0x0x7ff6b706c9a2]
+	(No symbol) [0x0x7ff6b7067374]
+	(No symbol) [0x0x7ff6b706642a]
+	(No symbol) [0x0x7ff6b6fb7075]
+	GetHandleVerifier [0x0x7ff6b752b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6b7525c4a+2922410]
+	GetHandleVerifier [0x0x7ff6b75459d7+3052855]
+	GetHandleVerifier [0x0x7ff6b728aa7e+189918]
+	GetHandleVerifier [0x0x7ff6b7292a1f+222591]
+	(No symbol) [0x0x7ff6b6fb602c]
+	GetHandleVerifier [0x0x7ff6b765e3f8+4202328]
+	BaseThreadInitThunk [0x0x7ffef3ffe8d7+23]
+	RtlUserThreadStart [0x0x7ffef4968d9c+44]
+
+2025-09-25 12:37:37,433 - ERROR - Erro ao pegar pedidos: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6b726fc95+79861]
+	GetHandleVerifier [0x0x7ff6b726fcf0+79952]
+	(No symbol) [0x0x7ff6b6fec8fc]
+	(No symbol) [0x0x7ff6b703438d]
+	(No symbol) [0x0x7ff6b706c9a2]
+	(No symbol) [0x0x7ff6b7067374]
+	(No symbol) [0x0x7ff6b706642a]
+	(No symbol) [0x0x7ff6b6fb7075]
+	GetHandleVerifier [0x0x7ff6b752b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6b7525c4a+2922410]
+	GetHandleVerifier [0x0x7ff6b75459d7+3052855]
+	GetHandleVerifier [0x0x7ff6b728aa7e+189918]
+	GetHandleVerifier [0x0x7ff6b7292a1f+222591]
+	(No symbol) [0x0x7ff6b6fb602c]
+	GetHandleVerifier [0x0x7ff6b765e3f8+4202328]
+	BaseThreadInitThunk [0x0x7ffef3ffe8d7+23]
+	RtlUserThreadStart [0x0x7ffef4968d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 696, in pegarABCVendas
+    self._esperar_e_clicar(By.XPATH, r'//*[@id="formulario"]/div/div/div[2]/div[2]/div/div/div[3]/div/label')
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 459, in _esperar_e_clicar
+    elemento = self.wait.until(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 96, in until
+    value = method(self._driver)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 363, in _predicate
+    target = driver.find_element(*target)  # grab element at locator
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\seleniumbase\core\sb_driver.py", line 20, in find_element
+    return self.driver.default_find_element(by=by, value=value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 742, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.InvalidSessionIdException: Message: invalid session id
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6b726fc95+79861]
+	GetHandleVerifier [0x0x7ff6b726fcf0+79952]
+	(No symbol) [0x0x7ff6b6fec8fc]
+	(No symbol) [0x0x7ff6b703438d]
+	(No symbol) [0x0x7ff6b706c9a2]
+	(No symbol) [0x0x7ff6b7067374]
+	(No symbol) [0x0x7ff6b706642a]
+	(No symbol) [0x0x7ff6b6fb7075]
+	GetHandleVerifier [0x0x7ff6b752b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6b7525c4a+2922410]
+	GetHandleVerifier [0x0x7ff6b75459d7+3052855]
+	GetHandleVerifier [0x0x7ff6b728aa7e+189918]
+	GetHandleVerifier [0x0x7ff6b7292a1f+222591]
+	(No symbol) [0x0x7ff6b6fb602c]
+	GetHandleVerifier [0x0x7ff6b765e3f8+4202328]
+	BaseThreadInitThunk [0x0x7ffef3ffe8d7+23]
+	RtlUserThreadStart [0x0x7ffef4968d9c+44]
+

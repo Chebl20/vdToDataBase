@@ -1,0 +1,13 @@
+2025-09-25 12:50:39,117 - INFO - Iniciando execução principal do script Pedidos.py
+2025-09-25 12:50:39,117 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-09-25 12:50:39,118 - INFO - Configurando opções do Chrome
+2025-09-25 12:50:39,118 - INFO - Iniciando Chrome
+2025-09-25 12:50:44,686 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-09-25 12:50:44,855 - INFO - Setup do Selenium concluído
+2025-09-25 12:50:46,671 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-09-25 12:50:54,296 - INFO - Elemento localizado com sucesso: //*[@id="input-19"]
+2025-09-25 12:50:56,432 - INFO - Aguardando presença do elemento: //*[@id="input-20"]
+2025-09-25 12:50:56,674 - INFO - Elemento localizado com sucesso: //*[@id="input-20"]
+2025-09-25 12:50:59,988 - INFO - Tentando clicar no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-25 12:51:00,123 - INFO - Clique bem-sucedido no elemento: //*[@id="app"]/div[1]/section[2]/div/form/button
+2025-09-25 12:51:10,132 - INFO - Chamando método pegarItensVendas()

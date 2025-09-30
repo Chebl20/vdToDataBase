@@ -564,7 +564,135 @@ class PegarGoogle():
             logger.error(f"Erro ao fazer login: {str(e)}", exc_info=True)
             return False
             
+    
     def pegarABCVendas(self):
+        
+        # Função auxiliar para executar JavaScript com verificação
+        def safe_js_click(script, timeout=10):
+            wait_script = f"""
+            var element = {script.replace('.click();', '')};
+            return element !== null;
+            """
+            
+            # Espera o elemento estar disponível
+            WebDriverWait(self.driver, timeout).until(
+                lambda driver: driver.execute_script(wait_script)
+            )
+            
+            # Executa o clique
+            return self.driver.execute_script(script)
+        
+        def safe_js_input(selector, value, timeout=10):
+            wait_script = f"return document.querySelector('{selector}') !== null;"
+            
+            WebDriverWait(self.driver, timeout).until(
+                lambda driver: driver.execute_script(wait_script)
+            )
+            
+            self.driver.execute_script(f"""
+                var element = document.querySelector('{selector}');
+                element.value = '{value}';
+                element.dispatchEvent(new Event('input', {{ bubbles: true }}));
+                element.dispatchEvent(new Event('change', {{ bubbles: true }}));
+            """)
+            
+            # Simula Enter
+            time.sleep(0.5)  # Pequena pausa para garantir que o valor foi definido
+            self.driver.execute_script(f"""
+                var element = document.querySelector('{selector}');
+                var event = new KeyboardEvent('keydown', {{
+                    key: 'Enter',
+                    keyCode: 13,
+                    which: 13,
+                    bubbles: true
+                }});
+                element.dispatchEvent(event);
+            """)
+        
+        try:
+            # Clique no primeiro item do menu lateral
+            safe_js_click("document.querySelector('#sidemenu-item-6 .flora-sidemenu__item-label').click();")
+            time.sleep(1)
+            
+            # Clique no segundo item do submenu
+            safe_js_click("document.querySelector('#sidemenu-item-602 > .flora-sidemenu-submenu__item-label').click();")
+            time.sleep(1)
+            
+            # Clique no terceiro item
+            safe_js_click("document.querySelector('#sidemenu-item-144 .flora-body-large').click();")
+            time.sleep(2)
+            
+            # Muda para o frame
+            self.driver.switch_to.frame(1)
+            time.sleep(2)  # Espera o frame carregar
+            
+            # Verifica se o elemento periodoInicial existe antes de clicar
+            periodo_exists = self.driver.execute_script("return document.getElementById('periodoInicial') !== null;")
+            if not periodo_exists:
+                print("Elemento 'periodoInicial' não encontrado. Tentando aguardar...")
+                WebDriverWait(self.driver, 10).until(
+                    lambda driver: driver.execute_script("return document.getElementById('periodoInicial') !== null;")
+                )
+            
+            # Clique no campo período inicial
+            safe_js_click("document.getElementById('periodoInicial').click();")
+            time.sleep(1)
+            
+            # Clique no primeiro select2
+            safe_js_click("document.getElementById('select2-quebra-container').click();")
+            time.sleep(1)
+            
+            # Digita "data" no campo de busca
+            safe_js_input('.select2-search__field', 'data')
+            time.sleep(1)
+            
+            # Clique no segundo select2
+            safe_js_click("document.getElementById('select2-quebra2-container').click();")
+            time.sleep(1)
+            
+            # Digita "vendedor" no campo de busca
+            safe_js_input('.select2-search__field', 'vendedor')
+            time.sleep(1)
+            
+            # Clique no terceiro select2
+            safe_js_click("document.getElementById('select2-exibicao-container').click();")
+            time.sleep(1)
+            
+            # Digita "csv" no campo de busca
+            safe_js_input('.select2-search__field', 'csv')
+            time.sleep(1)
+            
+            # Clique no botão gerar
+            safe_js_click("document.getElementById('gerar').click();")
+            
+            return True
+            
+        except Exception as e:
+            print(f"Erro na execução: {e}")
+            
+            # Debug: Verifica se estamos no frame correto
+            print("Verificando elementos disponíveis...")
+            try:
+                elements = self.driver.execute_script("""
+                    var ids = ['periodoInicial', 'select2-quebra-container', 'select2-quebra2-container', 'select2-exibicao-container', 'gerar'];
+                    var found = [];
+                    ids.forEach(function(id) {
+                        if (document.getElementById(id)) {
+                            found.push(id + ': encontrado');
+                        } else {
+                            found.push(id + ': NÃO encontrado');
+                        }
+                    });
+                    return found;
+                """)
+                for element in elements:
+                    print(element)
+            except:
+                print("Não foi possível verificar os elementos")
+            
+            return False
+            
+    def pegarABCVendasTest(self):
         try:
             logger.info("Iniciando processo de busca e exportação de pedidos")
             

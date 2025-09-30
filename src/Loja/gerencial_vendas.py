@@ -9,35 +9,6 @@ import logging
 import os
 from typing import Optional, Dict, Any, List
 from dotenv import load_dotenv
-
-# Carregando variáveis de ambiente do arquivo .env
-load_dotenv()
-
-# Configuração do logger
-def setup_logger():
-    # Cria o diretório de logs se não existir
-    log_dir = "logs"
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
-    
-    # Nome do arquivo de log com timestamp
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = os.path.join(log_dir, f"execucao_{timestamp}.log")
-    
-    # Configuração do formato do log
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s [%(levelname)s] %(message)s',
-        handlers=[
-            logging.FileHandler(log_file, encoding='utf-8'),
-            logging.StreamHandler()  # Para mostrar logs no console também
-        ]
-    )
-    
-    return logging.getLogger(__name__)
-
-# Inicializa o logger
-logger = setup_logger()
 import pytest
 import time
 import json
@@ -74,6 +45,35 @@ import psycopg2.extras
 from seleniumbase import Driver
 from psycopg2.extras import execute_values
 
+
+# Carregando variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Configuração do logger
+def setup_logger():
+    # Cria o diretório de logs se não existir
+    log_dir = "logs"
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    
+    # Nome do arquivo de log com timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = os.path.join(log_dir, f"execucao_{timestamp}.log")
+    
+    # Configuração do formato do log
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        handlers=[
+            logging.FileHandler(log_file, encoding='utf-8'),
+            logging.StreamHandler()  # Para mostrar logs no console também
+        ]
+    )
+    
+    return logging.getLogger(__name__)
+
+# Inicializa o logger
+logger = setup_logger()
 
 
 class BoticarioAuth:
