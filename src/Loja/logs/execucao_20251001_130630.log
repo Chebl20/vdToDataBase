@@ -1,0 +1,107 @@
+2025-10-01 13:06:30,158 - INFO - Iniciando execução principal do script Pedidos.py
+2025-10-01 13:06:30,158 - INFO - Inicializando PegarGoogle e o driver do Chrome...
+2025-10-01 13:06:30,158 - INFO - Configurando opções do Chrome
+2025-10-01 13:06:30,159 - INFO - Iniciando Chrome
+2025-10-01 13:06:34,225 - INFO - Configurando WebDriverWait com timeout de 120 segundos
+2025-10-01 13:06:34,309 - INFO - Setup do Selenium concluído
+2025-10-01 13:08:27,348 - INFO - Aguardando presença do elemento: //*[@id="input-19"]
+2025-10-01 13:08:27,431 - WARNING - Tentativa 1 falhou, tentando novamente em 1 segundo... Erro: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Sess
+2025-10-01 13:08:28,434 - WARNING - Tentativa 2 falhou, tentando novamente em 1 segundo... Erro: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Sess
+2025-10-01 13:08:29,436 - ERROR - Erro ao esperar elemento //*[@id="input-19"]: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=140.0.7339.208)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6ffccfc95+79861]
+	GetHandleVerifier [0x0x7ff6ffccfcf0+79952]
+	(No symbol) [0x0x7ff6ffa4cada]
+	(No symbol) [0x0x7ff6ffa24b91]
+	(No symbol) [0x0x7ff6ffad40fe]
+	(No symbol) [0x0x7ff6ffaf48c2]
+	(No symbol) [0x0x7ff6ffacc8b3]
+	(No symbol) [0x0x7ff6ffa95272]
+	(No symbol) [0x0x7ff6ffa96043]
+	GetHandleVerifier [0x0x7ff6fff8b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6fff85c4a+2922410]
+	GetHandleVerifier [0x0x7ff6fffa59d7+3052855]
+	GetHandleVerifier [0x0x7ff6ffceaa7e+189918]
+	GetHandleVerifier [0x0x7ff6ffcf2a1f+222591]
+	GetHandleVerifier [0x0x7ff6ffcd8ab4+116244]
+	GetHandleVerifier [0x0x7ff6ffcd8c69+116681]
+	GetHandleVerifier [0x0x7ff6ffcbf048+11176]
+	BaseThreadInitThunk [0x0x7ffc7a0ee8d7+23]
+	RtlUserThreadStart [0x0x7ffc7bf48d9c+44]
+
+2025-10-01 13:08:29,441 - ERROR - Erro ao fazer login: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=140.0.7339.208)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6ffccfc95+79861]
+	GetHandleVerifier [0x0x7ff6ffccfcf0+79952]
+	(No symbol) [0x0x7ff6ffa4cada]
+	(No symbol) [0x0x7ff6ffa24b91]
+	(No symbol) [0x0x7ff6ffad40fe]
+	(No symbol) [0x0x7ff6ffaf48c2]
+	(No symbol) [0x0x7ff6ffacc8b3]
+	(No symbol) [0x0x7ff6ffa95272]
+	(No symbol) [0x0x7ff6ffa96043]
+	GetHandleVerifier [0x0x7ff6fff8b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6fff85c4a+2922410]
+	GetHandleVerifier [0x0x7ff6fffa59d7+3052855]
+	GetHandleVerifier [0x0x7ff6ffceaa7e+189918]
+	GetHandleVerifier [0x0x7ff6ffcf2a1f+222591]
+	GetHandleVerifier [0x0x7ff6ffcd8ab4+116244]
+	GetHandleVerifier [0x0x7ff6ffcd8c69+116681]
+	GetHandleVerifier [0x0x7ff6ffcbf048+11176]
+	BaseThreadInitThunk [0x0x7ffc7a0ee8d7+23]
+	RtlUserThreadStart [0x0x7ffc7bf48d9c+44]
+Traceback (most recent call last):
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 549, in entrar
+    self._esperar_elemento(By.XPATH, r'//*[@id="input-19"]').send_keys(usuario)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\src\loja\abc_vendas.py", line 478, in _esperar_elemento
+    elemento = self.wait.until(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 96, in until
+    value = method(self._driver)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 84, in _predicate
+    return driver.find_element(*locator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\seleniumbase\core\sb_driver.py", line 20, in find_element
+    return self.driver.default_find_element(by=by, value=value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 742, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Grupo Garbo\OneDrive\Área de Trabalho\Banco\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=140.0.7339.208)
+Stacktrace:
+	GetHandleVerifier [0x0x7ff6ffccfc95+79861]
+	GetHandleVerifier [0x0x7ff6ffccfcf0+79952]
+	(No symbol) [0x0x7ff6ffa4cada]
+	(No symbol) [0x0x7ff6ffa24b91]
+	(No symbol) [0x0x7ff6ffad40fe]
+	(No symbol) [0x0x7ff6ffaf48c2]
+	(No symbol) [0x0x7ff6ffacc8b3]
+	(No symbol) [0x0x7ff6ffa95272]
+	(No symbol) [0x0x7ff6ffa96043]
+	GetHandleVerifier [0x0x7ff6fff8b9cd+2946349]
+	GetHandleVerifier [0x0x7ff6fff85c4a+2922410]
+	GetHandleVerifier [0x0x7ff6fffa59d7+3052855]
+	GetHandleVerifier [0x0x7ff6ffceaa7e+189918]
+	GetHandleVerifier [0x0x7ff6ffcf2a1f+222591]
+	GetHandleVerifier [0x0x7ff6ffcd8ab4+116244]
+	GetHandleVerifier [0x0x7ff6ffcd8c69+116681]
+	GetHandleVerifier [0x0x7ff6ffcbf048+11176]
+	BaseThreadInitThunk [0x0x7ffc7a0ee8d7+23]
+	RtlUserThreadStart [0x0x7ffc7bf48d9c+44]
+

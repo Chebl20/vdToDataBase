@@ -1,0 +1,6 @@
+2025-10-01 13:01:19,039 [INFO] Autenticação realizada com sucesso
+2025-10-01 13:01:21,280 [INFO] Total de registros processados: 70
+2025-10-01 13:01:21,301 [INFO] Colunas encontradas: ['Listar Por Consultor', 'Quebrar Por Data', 'GMV-GMV', 'GMV-Boleto médio', 'GMV-Qtd de boletos', 'GMV-Itens por boleto', 'Meta receita-Meta receita', 'Meta receita-Atingimento', 'Meta receita-Crescimento ano anterior', 'Meta complementar-Meta boleto médio', 'Meta complementar-Atingimento meta boleto médio', 'Meta complementar-Meta itens por boleto', 'Meta complementar-Atingimento itens por boleto', 'Valores de vendas-Receita líquida', 'Valores de vendas-Receita líquida (-) trocas', 'Valores de vendas-B1', 'Fidelidade-Qtd de boletos', 'Fidelidade-Penetração boletos', 'Descontos-Total de descontos', 'Trocas-Trocas', 'Trocas-Qtd de trocas', 'Cartão presente-Recarga', 'Quantitativo-B1']
+2025-10-01 13:01:24,097 [INFO] Tabela e índices criados/verificados com sucesso!
+2025-10-01 13:01:24,098 [INFO] Tabela e índices criados/verificados com sucesso!
+2025-10-01 13:01:24,121 [INFO] Inserção/atualização de vendas gerenciais concluída com sucesso
